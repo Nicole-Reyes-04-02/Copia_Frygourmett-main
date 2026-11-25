@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Panel privado de cocina Frygourmett para gestionar la carta, disponibilidad y pedidos.">
+    <meta name="keywords" content="Frygourmett, panel de cocina, pedidos, gestión de menú">
+    <meta name="theme-color" content="#0b0e14">
+    <meta name="robots" content="noindex,nofollow">
+    <title>FRYGOURMETT - Panel Administrativo</title>
+    <link rel="icon" href="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" type="image/png">
+    
+    <!-- Google Fonts Inter, Montserrat, Unbounded & Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;700&family=Montserrat:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS v3 with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                dark: '#0b0e13',
+                sidebar: '#0e1217',
+                card: '#12161f',
+                border: '#1e2432',
+                input: '#151922',
+                accent: '#f59e0b',
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    
+    <style data-purpose="custom-scrollbars">
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0b0e13;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #232b3b;
+        border-radius: 9999px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #374151;
+      }
+    </style>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin-theme.css">
+    <link rel="stylesheet" href="css/advanced.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="module" src="js/script.js"></script>
+    <script type="module" src="js/pending-payments-review.js"></script>
+    <script type="module" src="js/dashboard-extra.js"></script>
+    <script type="module" src="js/premium.js"></script>
+    <script type="module">
+      import { setupUnitSelectors, setupAnimations, setupInventoryTools, setupSwiperCarousels } from "./src/advanced.js";
+      setupUnitSelectors();
+      setupAnimations();
+      setupInventoryTools();
+      setupSwiperCarousels();
+    </script>
+</head>
+<body>
+    <div class="auth-gate" id="admin-auth" role="main">
+        <section class="auth-card" aria-labelledby="admin-auth-title">
+            <a class="auth-brand" href="cliente.html"><img src="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" alt="Frygourmett" class="brand-logo"></a>
+            <p class="eyebrow">ACCESO OPERATIVO · PANEL DE GESTIÓN</p>
+            <h1 id="admin-auth-title">Servicio y equipo, bajo control.</h1>
+            <p>Acceso seguro para administración, gerencia, recepción, almacén y reparto.</p>
+            <p class="auth-message" id="admin-auth-message" role="status">Ingresa con tu correo y contraseña autorizados.</p>
+            <form id="admin-login-form">
+                <label>Correo electrónico<input name="email" type="email" autocomplete="username" placeholder="tu@frygourmett.com" required></label>
+                <label>Contraseña<input name="password" type="password" autocomplete="current-password" placeholder="Tu contraseña" required></label>
+                <button class="button button-dark" type="submit">Entrar al panel</button>
+            </form>
+            <a class="text-link" href="cliente.html" style="display:inline-block; margin-top:14px; font-size:11px;">¿Eres cliente? Ir a la carta y pedidos ↗</a>
+        </section>
+    </div>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar" aria-label="Navegación del dashboard">
+            <div class="sidebar-brand-row">
+                <a class="brand" href="#resumen" aria-label="Frygourmett, Panel Administrador">
+                    <img src="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" alt="Frygourmett" class="brand-logo admin-sidebar-logo">
+                    <span class="brand-subtitle">Panel Administrador</span>
+                </a>
+                <button class="sidebar-collapse-btn" id="sidebar-collapse-btn" type="button" aria-label="Colapsar menú lateral">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button class="sidebar-close-mobile-btn" id="sidebar-close-mobile-btn" type="button" aria-label="Cerrar menú lateral">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+
+            <nav class="side-nav" role="tablist" aria-label="Secciones de cocina" aria-orientation="vertical">
+                <div class="nav-section-title">PRINCIPAL</div>
+                <button class="nav-link is-active" id="admin-tab-resumen" type="button" role="tab" aria-controls="admin-panel-resumen" aria-selected="true" data-view="resumen">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="8" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="15" width="7" height="6" rx="1.5"/></svg>
+                    Dashboard
+                </button>
+
+                <div class="nav-section-title">GESTIÓN</div>
+                <button class="nav-link" id="admin-tab-menu" type="button" role="tab" aria-controls="menu" aria-selected="false" data-view="menu">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h16"/><circle cx="7" cy="5" r="1"/><circle cx="7" cy="12" r="1"/><circle cx="7" cy="19" r="1"/></svg>
+                    Carta
+                </button>
+                <button class="nav-link" id="admin-tab-pedidos" type="button" role="tab" aria-controls="pedidos" aria-selected="false" data-view="pedidos">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v13H3V6a2 2 0 0 1 2-2Z"/><path d="M8 8h8M8 12h8M8 16h4"/></svg>
+                    Pedidos <span class="nav-count" id="nav-order-count">0</span>
+                </button>
+                <button class="nav-link" id="admin-tab-inventario" type="button" role="tab" aria-controls="inventario" aria-selected="false" data-view="inventario">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12v9"/></svg>
+                    Inventario
+                </button>
+                <button class="nav-link" id="admin-tab-opiniones" type="button" role="tab" aria-controls="opiniones" aria-selected="false" data-view="opiniones">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5"/></svg>
+                    Opiniones
+                </button>
+                <button class="nav-link" id="admin-tab-personal" type="button" role="tab" aria-controls="personal" aria-selected="false" data-view="personal">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Personal
+                </button>
+                <div class="nav-section-title">COMUNICACIÓN</div>
+                <button class="nav-link" id="admin-tab-mensajes" type="button" role="tab" aria-controls="mensajes" aria-selected="false" data-view="mensajes">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-5 4v-4.5a2.5 2.5 0 0 1-1-2z"/><path d="M8 8h8M8 12h5"/></svg>
+                    Mensajes
+                </button>
+
+                <div class="nav-section-title" data-administrator-only>CONFIGURACIÓN</div>
+                <button class="nav-link" id="admin-tab-politicas" type="button" role="tab" aria-controls="politicas" aria-selected="false" data-view="politicas" data-administrator-only>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    Políticas y términos
+                </button>
+                <button class="nav-link" id="admin-tab-reclamaciones" type="button" role="tab" aria-controls="reclamaciones" aria-selected="false" data-view="reclamaciones" data-administrator-only>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    Libro de Reclamaciones
+                </button>
+                <button class="nav-link" id="admin-tab-configuracion" type="button" role="tab" aria-controls="configuracion" aria-selected="false" data-view="configuracion" data-administrator-only>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    Configuración
+                </button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-theme-switch-row">
+                    <span>Apariencia</span>
+                    <button class="button button-outline sidebar-theme-toggle" id="sidebar-theme-toggle" type="button">
+                        <span id="sidebar-theme-label">🌙 Modo Oscuro</span>
+                    </button>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon" aria-hidden="true">✦</span>
+                    <strong>Cocina conectada</strong>
+                    <span>Carta y pedidos sincronizados con Supabase.</span>
+                    <span class="service-status"><i></i> Sesión segura</span>
+                </div>
+                <button class="profile-button" id="role-switch-button" type="button" aria-label="Cerrar sesión">
+                    <span class="avatar avatar-profile" id="sidebar-avatar">AD</span>
+                    <span class="profile-copy"><strong id="profile-name">Administrador</strong><small id="profile-role">administrador</small></span>
+                    <span class="profile-more" aria-hidden="true">↗</span>
+                </button>
+            </div>
+        </aside>
+        <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button class="icon-button mobile-menu-button" type="button" id="mobile-menu-button" aria-label="Abrir navegación" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+                <div class="breadcrumb">
+                    <img src="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" alt="Frygourmett" class="topbar-brand-logo">
+                    <span>Frygourmett</span><span class="breadcrumb-separator">/</span><strong id="breadcrumb-page">Dashboard</strong>
+                </div>
+                <div class="topbar-search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input type="search" id="topbar-search-input" placeholder="Buscar en el panel..." aria-label="Buscar en el panel">
+                    <kbd>⌘K</kbd>
+                </div>
+                <!-- BEGIN: RoleSimulatorBar (Integrado en barra superior) -->
+                <aside class="role-simulator-bar" id="role-simulator-bar" role="region" aria-label="Simulador y Previsualización de Roles" data-real-administrator-only>
+                    <div class="role-simulator-container">
+                        <div class="role-simulator-left">
+                            <span class="role-simulator-badge">
+                                <span class="role-sim-dot"></span>
+                                <span>SIMULADOR DE VISTAS</span>
+                            </span>
+                            <span class="role-simulator-desc">Previsualiza roles:</span>
+                        </div>
+                        <div class="role-simulator-controls">
+                            <select id="role-simulator-select" class="role-simulator-select" aria-label="Cambiar rol a simular">
+                                <option value="">Vista real de Administrador</option>
+                                <option value="gerente">📊 Gerente</option>
+                                <option value="almacenero">📦 Almacenero</option>
+                                <option value="recepcionista">📋 Recepcionista</option>
+                                <option value="repartidor">🛵 Repartidor</option>
+                            </select>
+                            <button type="button" id="role-simulator-reset-btn" class="role-simulator-reset-btn" title="Restaurar a mi rol auténtico" hidden>
+                                ↺ <span class="role-reset-text">Restaurar</span> (<span id="role-real-name-display">Admin</span>)
+                            </button>
+                        </div>
+                    </div>
+                </aside>
+                <!-- END: RoleSimulatorBar -->
+                <div class="topbar-actions">
+                    <span class="today-label" id="today-label"></span>
+                    <span class="service-label" id="service-label" hidden></span>
+                    <button class="admin-store-badge" id="admin-store-quick-toggle" type="button" data-administrator-only title="Estado de la cocina/tienda (clic para alternar)">
+                        <span class="store-dot is-open" id="admin-store-dot"></span>
+                        <span id="admin-store-text">Tienda: Abierta</span>
+                    </button>
+                    <a class="button button-outline topbar-menu-link" id="btn-back-to-menu" href="cliente.html#menu" title="Volver al menú principal público" style="display:inline-flex; align-items:center; gap:6px; font-weight:600; text-decoration:none; padding:7px 12px; border-radius:8px; font-size:12px;">
+                        <span aria-hidden="true">🍽</span> Volver al menú principal
+                    </a>
+                    <button class="icon-button theme-toggle-btn" id="admin-theme-toggle" type="button" aria-label="Cambiar tema">
+                        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
+                    <button class="icon-button notification-button" type="button" id="notification-button" aria-label="Ver notificaciones" aria-haspopup="dialog" aria-expanded="false" aria-controls="role-notifications">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+                        <span class="notification-count" id="notification-count" aria-hidden="true" hidden></span>
+                    </button>
+                    <aside class="role-notifications role-notifications-drawer" id="role-notifications" role="dialog" aria-label="Notificaciones" hidden>
+                        <div class="notifications-drawer-header">
+                            <strong>Notificaciones</strong>
+                        </div>
+                        <div class="notification-list" id="role-notification-list" role="list" aria-live="polite">No tienes notificaciones.</div>
+                    </aside>
+                    <div class="topbar-user">
+                        <span class="avatar avatar-topbar" id="topbar-avatar">AD</span>
+                        <div class="topbar-user-copy">
+                            <strong id="topbar-user-name">Administrador</strong>
+                            <small id="topbar-user-role">administrador</small>
+                        </div>
+                    </div>
+                    <button class="button button-gold new-order-button" type="button" data-open-order>
+                        <span aria-hidden="true">+</span> Nuevo pedido
+                    </button>
+                </div>
+            </header>
+
+            <!-- Alerta informativa al simular roles -->
+            <div class="role-simulator-alert" id="role-simulator-alert" data-real-administrator-only hidden>
+                <span id="role-simulator-alert-text"></span>
+            </div>
+
+            <div class="content-wrap">
+                <section id="admin-panel-resumen" class="admin-tab-panel" role="tabpanel" aria-labelledby="admin-tab-resumen" data-admin-panel="resumen">
+                <!-- BEGIN: WelcomeBanner -->
+                <section class="admin-welcome-hero relative rounded-2xl bg-gradient-to-r from-[#0d1117] via-[#10151f] to-[#121620] border border-[#1d2433] mb-6 shadow-sm" data-purpose="welcome-hero-banner" aria-labelledby="page-title" data-admin-only>
+                    <!-- Capa de imagen de fondo con máscara y bordes recortados -->
+                    <div class="welcome-hero-bg absolute inset-0 rounded-2xl overflow-hidden pointer-events-none z-0" aria-hidden="true">
+                        <div class="absolute right-0 top-0 bottom-0 w-full sm:w-2/3 md:w-3/5 lg:w-1/2 h-full">
+                            <div class="absolute inset-0 bg-gradient-to-r from-[#0d1117] via-[#0d1117]/85 to-transparent z-10"></div>
+                            <img alt="" class="w-full h-full object-cover object-center opacity-80" src="img/Solomillo%20Wagyu%20A5%20Miyazaki.webp"/>
+                        </div>
+                    </div>
+
+                    <!-- Contenido principal en flujo natural 100% responsive -->
+                    <div class="welcome-hero-content relative z-10 w-full flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 sm:p-6 lg:px-8 lg:py-6">
+                        <div class="welcome-text flex-1 min-w-0 pr-0 md:pr-4">
+                            <h1 id="page-title" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-white tracking-tight leading-tight break-words">Bienvenido, <span id="welcome-user-name">Administrador</span></h1>
+                            <p class="text-xs sm:text-sm text-slate-300 mt-1 font-normal page-subtitle leading-relaxed max-w-xl">Gestiona la carta, pedidos, inventario y más de Frygourmett.</p>
+                        </div>
+                        <div class="welcome-actions flex items-center gap-2.5 sm:gap-3 flex-wrap flex-shrink-0">
+                            <div class="export-controls relative" id="export-controls">
+                                <button class="button button-outline px-3.5 py-2 rounded-lg bg-[#181e2b] hover:bg-[#202838] border border-[#263143] text-xs font-semibold text-slate-200 hover:text-white flex items-center gap-2 transition shadow-sm" id="export-button" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="export-menu">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    Exportar reporte
+                                </button>
+                                <div class="export-menu" id="export-menu" role="menu" aria-label="Formato del reporte" hidden>
+                                    <button id="export-pdf-button" type="button" role="menuitem">Descargar PDF</button>
+                                    <button id="export-excel-button" type="button" role="menuitem">Descargar Excel</button>
+                                    <button id="export-csv-button" type="button" role="menuitem">Descargar CSV</button>
+                                </div>
+                            </div>
+                            <button class="button button-gold new-order-button px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs flex items-center gap-1.5 shadow transition" type="button" data-open-order>
+                                <span>+</span> Nuevo pedido
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <!-- END: WelcomeBanner -->
+
+                <!-- BEGIN: MetricCardsGrid -->
+                <section class="metrics-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6" data-purpose="kpi-cards" aria-label="Indicadores del día" data-admin-only>
+                    <!-- Card 1: Pedidos hoy (Dark Theme) -->
+                    <article class="metric-card bg-[#12161f] border border-[#1e2432] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                        <div>
+                            <div class="metric-heading flex items-center gap-2 text-slate-400">
+                                <svg class="w-4 h-4 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span class="text-xs font-semibold">Pedidos hoy</span>
+                            </div>
+                            <div class="metric-main flex items-baseline gap-3 mt-2">
+                                <strong id="metric-orders" class="text-3xl font-black text-white tracking-tight">0</strong>
+                                <span class="inline-flex items-center text-xs font-bold text-emerald-400">
+                                    <svg class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m4.5 15.75 7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+                                    Hoy
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Pedidos registrados en BD</p>
+                        </div>
+                        <div class="metric-sparkline sparkline-orders mt-2 w-full h-7 flex items-end justify-end" aria-hidden="true">
+                            <svg class="w-24 h-6 text-slate-500 stroke-current fill-none stroke-[2]" viewBox="0 0 100 25">
+                                <path d="M 0,20 Q 25,22 40,15 T 70,8 T 100,5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <!-- Card 2: Ventas del día -->
+                    <article class="metric-card bg-[#12161f] border border-[#1e2432] rounded-2xl p-4 flex flex-col justify-between shadow-sm" data-admin-only>
+                        <div>
+                            <div class="metric-heading flex items-center gap-2 text-slate-400">
+                                <svg class="w-4 h-4 stroke-[2]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span class="text-xs font-semibold">Ventas del día</span>
+                            </div>
+                            <div class="metric-main flex items-baseline gap-2.5 mt-2">
+                                <strong id="metric-revenue" class="text-2xl font-black text-white tracking-tight">S/ 0.00</strong>
+                                <span class="inline-flex items-center text-xs font-semibold text-emerald-400">
+                                    <svg class="w-3 h-3 mr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m4.5 15.75 7.5-7.5 7.5 7.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+                                    Total
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Ingresos registrados en pedidos</p>
+                        </div>
+                        <div class="metric-sparkline sparkline-revenue mt-2 w-full h-7 flex items-end justify-end" aria-hidden="true">
+                            <svg class="w-24 h-6 text-emerald-500 stroke-current fill-none stroke-[2]" viewBox="0 0 100 25">
+                                <path d="M 0,22 Q 30,24 50,14 T 80,10 T 100,2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <!-- Card 3: Productos activos -->
+                    <article class="metric-card bg-[#12161f] border border-[#1e2432] rounded-2xl p-4 flex flex-col justify-between shadow-sm" data-admin-only>
+                        <div>
+                            <div class="metric-heading flex items-center gap-2 text-slate-400">
+                                <svg class="w-4 h-4 stroke-[1.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M6 13.87A4 4 0 0 1 7.41 6.3 5.1 5.1 0 0 1 16.59 6.3 4 4 0 0 1 18 13.87V17H6v-3.13zM6 17v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span class="text-xs font-semibold">Productos activos</span>
+                            </div>
+                            <div class="metric-main mt-2">
+                                <strong id="dx-products" class="text-3xl font-black text-white tracking-tight">0</strong>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Disponibles en el menú</p>
+                        </div>
+                        <div class="metric-sparkline sparkline-products mt-2 w-full h-7 flex items-end justify-end" aria-hidden="true">
+                            <svg class="w-24 h-6 text-sky-400 stroke-current fill-none stroke-[2]" viewBox="0 0 100 25">
+                                <path d="M 0,15 Q 25,18 45,9 T 75,13 T 100,6" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <!-- Card 4: Calificación promedio -->
+                    <article class="metric-card bg-[#12161f] border border-[#1e2432] rounded-2xl p-4 flex flex-col justify-between shadow-sm" data-admin-only>
+                        <div>
+                            <div class="metric-heading flex items-center gap-2 text-slate-400">
+                                <svg class="w-4 h-4 stroke-[1.8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                                <span class="text-xs font-semibold">Calificación promedio</span>
+                            </div>
+                            <div class="metric-main flex items-center gap-1.5 mt-2">
+                                <strong id="dx-rating" class="text-3xl font-black text-white tracking-tight">—</strong>
+                                <span class="text-amber-400 text-2xl leading-none">★</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 mt-0.5">Opiniones verificadas</p>
+                        </div>
+                        <div class="metric-sparkline sparkline-rating mt-2 w-full h-7 flex items-end justify-end" aria-hidden="true">
+                            <svg class="w-24 h-6 text-purple-400 stroke-current fill-none stroke-[2]" viewBox="0 0 100 25">
+                                <path d="M 0,10 Q 30,7 55,8 T 85,5 T 100,4" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                    </article>
+
+                    <!-- Elementos auxiliares preservados para script.js -->
+                    <div style="display:none;" aria-hidden="true">
+                        <span id="metric-preparing">0</span>
+                        <span id="preparing-progress"></span>
+                        <span id="metric-completed">0</span>
+                        <span id="completed-progress"></span>
+                    </div>
+                </section>
+                <!-- END: MetricCardsGrid -->
+
+                <!-- BEGIN: ChartsSection -->
+                <section class="dx-extra grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6" data-purpose="charts-row" aria-label="Resumen de ventas y pedidos" data-dashboard-visible>
+                    <!-- Weekly Sales Bar Chart (Span 2) -->
+                    <article class="panel dx-weekly-panel lg:col-span-2 bg-[#12161f] border border-[#1e2432] rounded-2xl p-5 flex flex-col justify-between" id="dx-extra" data-admin-only>
+                        <div class="panel-heading flex items-center justify-between pb-4">
+                            <div>
+                                <h3 class="text-sm font-bold text-white tracking-wide">Ventas semanales</h3>
+                                <p class="text-[11px] text-slate-400" id="dx-weekly-subtitle">Comparativa de los últimos 7 días · pasa el cursor sobre la gráfica</p>
+                            </div>
+                            <div class="pm-seg" role="group" aria-label="Rango de días">
+                                <button type="button" class="is-active" data-weekly-range="7">7 días</button>
+                                <button type="button" data-weekly-range="30">30 días</button>
+                            </div>
+                        </div>
+                        <div class="dx-chart pt-4">
+                            <div class="flex h-48 w-full">
+                                <div class="dx-y w-16 flex flex-col justify-between text-[11px] text-slate-400 font-medium pr-2 text-right" id="dx-weekly-y" aria-hidden="true"></div>
+                                <div class="dx-bars flex-1 flex items-end justify-between gap-2 h-full pb-6 border-b border-[#1e2432]" id="dx-weekly"></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Order Status Donut Chart (Span 1) -->
+                    <article class="panel dx-status-panel bg-[#12161f] border border-[#1e2432] rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="panel-heading pb-3">
+                            <h3 class="text-sm font-bold text-white tracking-wide">Estado de pedidos</h3>
+                            <p class="text-[11px] text-slate-400">Distribución actual</p>
+                        </div>
+                        <div class="dx-donut-row flex flex-col items-center justify-center my-3">
+                            <div class="dx-donut relative w-36 h-36 rounded-full flex items-center justify-center" id="dx-donut">
+                                <div class="w-24 h-24 rounded-full bg-[#12161f] flex flex-col items-center justify-center shadow-inner">
+                                    <strong id="dx-donut-total" class="text-2xl font-black text-white">0</strong>
+                                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Pedidos</span>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="dx-legend grid grid-cols-2 gap-2 text-xs text-slate-300 pt-2 border-t border-[#1e2432]" id="dx-legend"></ul>
+                    </article>
+                </section>
+                <!-- END: ChartsSection -->
+
+                <!-- BEGIN: TablesAndActionsSection -->
+                <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6" data-purpose="orders-and-actions" aria-label="Pedidos recientes y acciones rápidas" data-dashboard-visible>
+                    <!-- Recent Orders Table (Span 2) -->
+                    <article class="panel dx-recent-panel lg:col-span-2 bg-[#12161f] border border-[#1e2432] rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="panel-heading flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-bold text-white tracking-wide">Pedidos recientes</h3>
+                            <a class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition" href="#pedidos" data-quick-nav="pedidos">
+                                <span>Ver todos</span> <span class="text-sm">→</span>
+                            </a>
+                        </div>
+                        <div class="dx-table-wrap overflow-x-auto">
+                            <table class="dx-table w-full text-left text-xs">
+                                <thead>
+                                    <tr class="text-[11px] text-slate-400 border-b border-[#1e2536]">
+                                        <th class="pb-2 font-medium"># Pedido</th>
+                                        <th class="pb-2 font-medium">Cliente</th>
+                                        <th class="pb-2 font-medium" data-recent-total>Total</th>
+                                        <th class="pb-2 font-medium">Estado</th>
+                                        <th class="pb-2 font-medium">Hora</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-[#182030] text-slate-200" id="dx-recent">
+                                    <tr><td colspan="5" class="py-4 text-center text-slate-400">Cargando pedidos...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+
+                    <!-- Quick Actions Grid 2x2 (Span 1) -->
+                    <article class="admin-quick-actions bg-[#12161f] border border-[#1e2432] rounded-2xl p-5 flex flex-col justify-between" data-admin-only>
+                        <div class="mb-3">
+                            <h3 class="text-sm font-bold text-white tracking-wide">Acciones rápidas</h3>
+                            <p class="text-[11px] text-slate-400">Accesos directos de gestión</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <button type="button" class="quick-action-card p-3 rounded-xl bg-[#171d29] border border-[#232b3b] hover:border-amber-400 text-left transition group" data-quick-nav="menu" data-catalog-write>
+                                <div class="w-8 h-8 rounded-lg bg-amber-400/10 text-amber-400 flex items-center justify-center text-sm mb-2 group-hover:scale-110 transition">🍽</div>
+                                <strong class="block text-xs font-bold text-white">Nuevo plato</strong>
+                                <small class="text-[10px] text-slate-400">Crear o editar</small>
+                            </button>
+                            <button type="button" class="quick-action-card p-3 rounded-xl bg-[#171d29] border border-[#232b3b] hover:border-amber-400 text-left transition group" data-quick-nav="inventario" data-inventory-write>
+                                <div class="w-8 h-8 rounded-lg bg-cyan-400/10 text-cyan-400 flex items-center justify-center text-sm mb-2 group-hover:scale-110 transition">📦</div>
+                                <strong class="block text-xs font-bold text-white">Inventario</strong>
+                                <small class="text-[10px] text-slate-400">Ajustar stock</small>
+                            </button>
+                            <button type="button" class="quick-action-card p-3 rounded-xl bg-[#171d29] border border-[#232b3b] hover:border-amber-400 text-left transition group" data-quick-nav="personal">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-400/10 text-emerald-400 flex items-center justify-center text-sm mb-2 group-hover:scale-110 transition">👥</div>
+                                <strong class="block text-xs font-bold text-white">Personal</strong>
+                                <small class="text-[10px] text-slate-400">Turnos y equipo</small>
+                            </button>
+                            <button type="button" class="quick-action-card p-3 rounded-xl bg-[#171d29] border border-[#232b3b] hover:border-amber-400 text-left transition group" data-quick-nav="politicas" data-administrator-only>
+                                <div class="w-8 h-8 rounded-lg bg-purple-400/10 text-purple-400 flex items-center justify-center text-sm mb-2 group-hover:scale-110 transition">📄</div>
+                                <strong class="block text-xs font-bold text-white">Políticas</strong>
+                                <small class="text-[10px] text-slate-400">Términos legales</small>
+                            </button>
+                        </div>
+                    </article>
+                </section>
+                <!-- END: TablesAndActionsSection -->
+
+                <!-- BEGIN: BottomInsightsSection -->
+                <section class="grid grid-cols-1 lg:grid-cols-3 gap-6" data-purpose="bottom-insights" aria-label="Platos populares y opiniones recientes" data-admin-only>
+                    <!-- Most Popular Dishes (Span 2) -->
+                    <article class="panel lg:col-span-2 bg-[#12161f] border border-[#1e2432] rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="panel-heading flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-sm font-bold text-white tracking-wide">Platos más solicitados</h3>
+                                <p class="text-[11px] text-slate-400">Preferencias de comensales en el menú</p>
+                            </div>
+                            <a class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition" href="#menu" data-quick-nav="menu">
+                                <span>Ver carta</span> <span class="text-sm">→</span>
+                            </a>
+                        </div>
+                        <div id="dx-popular-bars" class="space-y-3">
+                            <p class="text-xs text-slate-400 py-4 text-center">Cargando platos más solicitados...</p>
+                        </div>
+                    </article>
+
+                    <!-- Recent Reviews Carousel (Span 1) -->
+                    <article class="panel dx-reviews-panel bg-[#12161f] border border-[#1e2432] rounded-2xl p-5 flex flex-col justify-between">
+                        <div class="panel-heading flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-bold text-white tracking-wide">Opiniones recientes</h3>
+                            <a class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition" href="#opiniones" data-quick-nav="opiniones">
+                                <span>Ver todas</span> <span class="text-sm">→</span>
+                            </a>
+                        </div>
+                        <div class="dx-review-wrap p-4 bg-[#171d29] border border-[#232b3b] rounded-xl text-xs text-slate-300 min-h-[140px] flex flex-col justify-between" id="dx-review">
+                            <p class="text-slate-400 text-center py-6">Cargando opiniones...</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-[#1e2432] mt-3">
+                            <div class="dx-dots flex gap-1" id="dx-review-dots"></div>
+                            <div class="flex gap-2">
+                                <button type="button" id="dx-review-prev" class="w-7 h-7 rounded-full border border-neutral-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition" aria-label="Opinión anterior">‹</button>
+                                <button type="button" id="dx-review-next" class="w-7 h-7 rounded-full border border-neutral-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition" aria-label="Opinión siguiente">›</button>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+                <!-- END: BottomInsightsSection -->
+
+                <!-- BEGIN: Swiper Showcases (General & Promociones) -->
+                <section class="swiper-showcase-section mb-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <article class="bg-[#12161f] border border-[#1e2432] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h3 class="text-sm font-bold text-white tracking-wide">📸 Galería y Multimedia General</h3>
+                                <p class="text-xs text-slate-400">Carrusel dinámico interactivo con Swiper.js</p>
+                            </div>
+                            <span class="text-[10px] bg-amber-500/20 text-amber-400 font-semibold px-2 py-0.5 rounded">Swiper 11</span>
+                        </div>
+                        <div class="swiper swiper-general-showcase rounded-xl overflow-hidden min-h-[160px] bg-[#0b0e14] relative">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide p-4 flex flex-col justify-center items-center text-center">
+                                    <h4 class="text-white font-bold text-sm">Carta Gastronómica Frygourmett</h4>
+                                    <p class="text-xs text-slate-400 max-w-sm mt-1">Platos gourmet, ingredientes seleccionados y recetas con control de merma.</p>
+                                </div>
+                                <div class="swiper-slide p-4 flex flex-col justify-center items-center text-center">
+                                    <h4 class="text-white font-bold text-sm">Control Operativo en Tiempo Real</h4>
+                                    <p class="text-xs text-slate-400 max-w-sm mt-1">Sincronización directa con Supabase y control de inventario base.</p>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </article>
+                    <article class="bg-[#12161f] border border-[#1e2432] rounded-2xl p-4 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h3 class="text-sm font-bold text-white tracking-wide">🔥 Promociones Activas</h3>
+                                <p class="text-xs text-slate-400">Ofertas destacadas con cálculo de ahorro y precio tachado</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] bg-emerald-500/20 text-emerald-400 font-semibold px-2 py-0.5 rounded">Promos</span>
+                                <div class="flex items-center gap-1">
+                                    <button type="button" class="swiper-button-prev-promo w-6 h-6 rounded-full border border-neutral-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition text-xs" aria-label="Promoción anterior">‹</button>
+                                    <button type="button" class="swiper-button-next-promo w-6 h-6 rounded-full border border-neutral-700 flex items-center justify-center text-slate-400 hover:text-white hover:border-slate-500 transition text-xs" aria-label="Promoción siguiente">›</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper swiper-promotions-showcase rounded-xl overflow-hidden min-h-[160px] bg-[#0b0e14] relative">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide h-auto">
+                                    <div class="promo-showcase-card h-full p-3.5 rounded-xl bg-[#161c28] border border-[#232d40] flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between gap-1 mb-1.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">Combo Especial</span>
+                                                <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">-26%</span>
+                                            </div>
+                                            <h4 class="text-white font-bold text-sm leading-snug line-clamp-2" title="2x1 Lomo Saltado Gourmett">2x1 Lomo Saltado Gourmett</h4>
+                                        </div>
+                                        <div class="mt-3 pt-2 border-t border-[#1e2638] flex items-end justify-between gap-2">
+                                            <div>
+                                                <span class="block text-[11px] text-slate-400 line-through">S/ 65.00</span>
+                                                <span class="text-base font-extrabold text-emerald-400 leading-tight">S/ 48.00</span>
+                                            </div>
+                                            <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded whitespace-nowrap">Ahorra S/ 17.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide h-auto">
+                                    <div class="promo-showcase-card h-full p-3.5 rounded-xl bg-[#161c28] border border-[#232d40] flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between gap-1 mb-1.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">Familiar</span>
+                                                <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">-20%</span>
+                                            </div>
+                                            <h4 class="text-white font-bold text-sm leading-snug line-clamp-2" title="Banquete Familiar Alitas & Fries">Banquete Familiar Alitas & Fries</h4>
+                                        </div>
+                                        <div class="mt-3 pt-2 border-t border-[#1e2638] flex items-end justify-between gap-2">
+                                            <div>
+                                                <span class="block text-[11px] text-slate-400 line-through">S/ 92.00</span>
+                                                <span class="text-base font-extrabold text-emerald-400 leading-tight">S/ 74.00</span>
+                                            </div>
+                                            <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded whitespace-nowrap">Ahorra S/ 18.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide h-auto">
+                                    <div class="promo-showcase-card h-full p-3.5 rounded-xl bg-[#161c28] border border-[#232d40] flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between gap-1 mb-1.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">Combo Gourmett</span>
+                                                <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">-21%</span>
+                                            </div>
+                                            <h4 class="text-white font-bold text-sm leading-snug line-clamp-2" title="Combo Gourmett Completo">Combo Gourmett Completo</h4>
+                                        </div>
+                                        <div class="mt-3 pt-2 border-t border-[#1e2638] flex items-end justify-between gap-2">
+                                            <div>
+                                                <span class="block text-[11px] text-slate-400 line-through">S/ 48.00</span>
+                                                <span class="text-base font-extrabold text-emerald-400 leading-tight">S/ 38.00</span>
+                                            </div>
+                                            <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded whitespace-nowrap">Ahorra S/ 10.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide h-auto">
+                                    <div class="promo-showcase-card h-full p-3.5 rounded-xl bg-[#161c28] border border-[#232d40] flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between gap-1 mb-1.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">Promo Pareja</span>
+                                                <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">-19%</span>
+                                            </div>
+                                            <h4 class="text-white font-bold text-sm leading-snug line-clamp-2" title="Promo Dúo Pareja Gourmett">Promo Dúo Pareja Gourmett</h4>
+                                        </div>
+                                        <div class="mt-3 pt-2 border-t border-[#1e2638] flex items-end justify-between gap-2">
+                                            <div>
+                                                <span class="block text-[11px] text-slate-400 line-through">S/ 52.00</span>
+                                                <span class="text-base font-extrabold text-emerald-400 leading-tight">S/ 42.00</span>
+                                            </div>
+                                            <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded whitespace-nowrap">Ahorra S/ 10.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide h-auto">
+                                    <div class="promo-showcase-card h-full p-3.5 rounded-xl bg-[#161c28] border border-[#232d40] flex flex-col justify-between">
+                                        <div>
+                                            <div class="flex items-center justify-between gap-1 mb-1.5">
+                                                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/20">Alitas</span>
+                                                <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-1.5 py-0.5 rounded border border-emerald-500/30">-20%</span>
+                                            </div>
+                                            <h4 class="text-white font-bold text-sm leading-snug line-clamp-2" title="Promo Alitas BBQ & Fries">Promo Alitas BBQ & Fries</h4>
+                                        </div>
+                                        <div class="mt-3 pt-2 border-t border-[#1e2638] flex items-end justify-between gap-2">
+                                            <div>
+                                                <span class="block text-[11px] text-slate-400 line-through">S/ 40.00</span>
+                                                <span class="text-base font-extrabold text-emerald-400 leading-tight">S/ 32.00</span>
+                                            </div>
+                                            <span class="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded whitespace-nowrap">Ahorra S/ 8.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination swiper-pagination-promo"></div>
+                        </div>
+                    </article>
+                </section>
+                <!-- END: Swiper Showcases -->
+
+                <!-- Preserved Hourly Sales Elements for script.js compatibility -->
+                <div style="display:none;" aria-hidden="true">
+                    <span id="chart-total">0</span>
+                    <svg><path id="chart-area-fill"></path><path id="chart-line"></path><circle id="chart-point"></circle></svg>
+                    <div id="chart-x-labels"></div>
+                    <div id="popular-list"></div>
+                </div>
+</section>
+
+                <section class="panel products-panel admin-tab-panel" id="menu" role="tabpanel" aria-labelledby="admin-tab-menu" data-admin-panel="menu" hidden>
+                    <div class="orders-heading">
+                        <div><h2 id="products-title">Carta y disponibilidad</h2><p>Una buena mise en place empieza por una carta bajo control.</p></div>
+                        <button class="button button-dark" id="reset-product-form" type="button" data-catalog-write>+ Nuevo plato</button>
+                    </div>
+                    <div class="carousel-category-selector" id="carousel-category-selector" role="group" aria-label="Filtrar platos por categoría">
+                        <button type="button" class="carousel-cat-pill is-active" data-category-filter="" aria-pressed="true">Todos los platos</button>
+                    </div>
+
+                    <form id="product-form" class="product-form" data-catalog-write>
+                        <input name="id" type="hidden">
+                        <input name="raw_recipe_text" id="product-raw-recipe-text" type="hidden">
+                        <input name="imagen_url" id="product-imagen-url" type="hidden">
+                        <label>Nombre<input name="nombre" maxlength="100" required></label>
+                        <label>Categoría<select name="categoria" id="product-category" required></select></label>
+                        <label>Precio (S/)<input name="precio" type="number" min="0" max="99999" step="0.01" required></label>
+                        <label>Tiempo de preparación (min)<input name="tiempo_preparacion" id="product-tiempo-preparacion" type="number" min="1" max="180" placeholder="15 min"></label>
+                        <label>Precio Regular / Tachado (S/ si es promo)<input name="precio_regular" id="product-precio-regular" type="number" min="0" max="99999" step="0.01" placeholder="Ej: 50.00"></label>
+                        <div class="media-dropzone-wrapper">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Multimedia del plato (Optimizado a WebP)
+                                <div class="file-dropzone" id="product-dropzone" tabindex="0" role="button" aria-label="Subir imagen o video del plato">
+                                    <input type="file" id="product-file-input" accept="image/webp,image/png,image/jpeg,image/jpg,image/avif,video/mp4" class="hidden-file-input">
+                                    <div class="dropzone-prompt" id="product-dropzone-prompt">
+                                        <span class="text-xl" aria-hidden="true">📤</span>
+                                        <strong>Subir archivo (se optimizará a .webp)</strong>
+                                        <small>Arrastra una imagen o haz clic para seleccionar (PNG, JPG, WebP, MP4)</small>
+                                    </div>
+                                    <div class="media-preview-box" id="product-preview-box" hidden>
+                                        <img id="product-preview-img" class="media-preview-thumb" src="" alt="Vista previa WebP" hidden>
+                                        <video id="product-preview-video" class="media-preview-thumb" src="" muted controls hidden></video>
+                                        <div class="media-preview-details">
+                                            <span class="media-preview-badge" id="product-preview-badge">WebP Optimizado</span>
+                                            <span class="text-slate-400 text-[10px]" id="product-preview-name"></span>
+                                        </div>
+                                        <button type="button" class="media-preview-remove" id="product-preview-remove" title="Quitar archivo">×</button>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <label class="product-description">Descripción<textarea name="descripcion" rows="2" maxlength="500" required></textarea></label>
+
+                        <!-- BEGIN: Receta del plato y Control de Merma -->
+                        <fieldset class="dish-recipe-fieldset" id="dish-recipe-builder">
+                            <div class="recipe-fieldset-header">
+                                <div>
+                                    <legend class="recipe-legend">
+                                        <i class="fa-solid fa-mortar-pestle text-amber-400" aria-hidden="true"></i>
+                                        Receta del plato y Control de Merma (Uso Interno)
+                                    </legend>
+                                    <p class="recipe-fieldset-subtitle">
+                                        Vincula insumos del <strong>Inventario</strong>, establece el factor de merma y define la preparación interna. El cálculo de producción se actualiza automáticamente con el stock físico.
+                                    </p>
+                                </div>
+                                <button type="button" class="button button-outline text-xs" id="btn-add-recipe-ingredient" style="padding: 6px 12px; font-size: 11.5px;">
+                                    + Añadir ingrediente a la receta
+                                </button>
+                            </div>
+
+                            <!-- Dropzone de importación de receta (.txt / .md) y descarga de plantilla -->
+                            <div class="recipe-import-wrapper">
+                                <div class="recipe-import-header">
+                                    <label class="block text-xs font-semibold text-slate-300">
+                                        <i class="fa-solid fa-file-import text-amber-400 mr-1" aria-hidden="true"></i>
+                                        Subir receta completa (.txt / .md)
+                                    </label>
+                                    <a href="/plantilla_receta.txt" download="plantilla_receta.txt" class="recipe-template-download-btn" id="btn-download-recipe-template" title="Descargar plantilla de ejemplo">
+                                        <i class="fa-solid fa-file-arrow-down mr-1" aria-hidden="true"></i>
+                                        Descargar plantilla .txt
+                                    </a>
+                                </div>
+                                <div class="file-dropzone" id="recipe-dropzone" tabindex="0" role="button" aria-label="Subir receta completa en archivo .txt o .md">
+                                    <input type="file" id="recipe-file-input" accept=".txt,.md,text/plain,text/markdown" class="hidden-file-input">
+                                    <div class="dropzone-prompt" id="recipe-dropzone-prompt">
+                                        <span class="text-xl" aria-hidden="true">📄</span>
+                                        <strong>Arrastra aquí tu archivo .txt o haz clic para subir</strong>
+                                        <small>Autocompleta insumos de Inventario, merma %, preparación y terminación automáticamente</small>
+                                    </div>
+                                    <div class="media-preview-box" id="recipe-preview-box" hidden>
+                                        <span class="text-xl" aria-hidden="true">📋</span>
+                                        <div class="media-preview-details">
+                                            <span class="media-preview-badge" id="recipe-preview-badge">Receta Importada</span>
+                                            <span class="text-slate-400 text-[10px]" id="recipe-preview-name"></span>
+                                        </div>
+                                        <button type="button" class="media-preview-remove" id="recipe-preview-remove" title="Quitar archivo importado">×</button>
+                                    </div>
+                                </div>
+                                <div id="recipe-unmatched-alert" class="recipe-unmatched-alert" role="status" aria-live="polite" hidden></div>
+                            </div>
+
+                            <!-- 1. Ingredientes del plato y Control de Merma -->
+                            <div class="recipe-section-block">
+                                <div class="recipe-subheading">
+                                    <i class="fa-solid fa-carrot text-amber-400" aria-hidden="true"></i>
+                                    1. Ingredientes del plato y Factor de Merma
+                                </div>
+                                <div class="recipe-ingredients-table-header">
+                                    <span>Insumo (Inventario)</span>
+                                    <span>Cant. Neta</span>
+                                    <span>Merma %</span>
+                                    <span>Consumo Real</span>
+                                    <span>Porciones</span>
+                                    <span></span>
+                                </div>
+                                <div class="recipe-ingredients-list" id="recipe-ingredients-list">
+                                    <!-- Filas dinámicas de ingredientes -->
+                                </div>
+                            </div>
+
+                            <!-- 2 & 3. Preparación y Terminación / Presentación (Uso Interno Cocina) -->
+                            <div class="recipe-internal-notes-grid">
+                                <label class="recipe-internal-note-label">
+                                    <span class="recipe-subheading">
+                                        <i class="fa-solid fa-kitchen-set text-amber-400" aria-hidden="true"></i>
+                                        2. Preparación (Paso a paso interno)
+                                    </span>
+                                    <span class="recipe-internal-hint">Información confidencial para cocina. Oculta al cliente.</span>
+                                    <textarea name="preparacion_interna" id="product-preparacion-interna" rows="3" maxlength="2000" placeholder="Describe el paso a paso culinario, cortes, temperaturas, tiempos de cocción y mise en place interno..."></textarea>
+                                </label>
+
+                                <label class="recipe-internal-note-label">
+                                    <span class="recipe-subheading">
+                                        <i class="fa-solid fa-utensils text-amber-400" aria-hidden="true"></i>
+                                        3. Terminación / Presentación
+                                    </span>
+                                    <span class="recipe-internal-hint">Estándares visuales de emplatado, vajilla y garnish. Oculta al cliente.</span>
+                                    <textarea name="presentacion_interna" id="product-presentacion-interna" rows="3" maxlength="2000" placeholder="Describe la presentación visual final, tipo de vajilla, distribución, salsas y decoración del plato..."></textarea>
+                                </label>
+                            </div>
+
+                            <!-- 4. Integración con Inventario y Cálculo Automático de Producción -->
+                            <div class="recipe-summary-card" id="recipe-live-summary">
+                                <div class="recipe-summary-metric">
+                                    <span class="recipe-metric-label">Platos disponibles para preparar hoy (según stock):</span>
+                                    <strong class="recipe-metric-value" id="recipe-live-portions">—</strong>
+                                </div>
+                                <div class="recipe-summary-limit" id="recipe-live-limiting-text">
+                                    Añade los insumos que conforman este plato para calcular la producción real según el ingrediente limitante.
+                                </div>
+                            </div>
+                        </fieldset>
+                        <!-- END: Receta del plato y Control de Merma -->
+
+                        <div class="product-form-actions"><button class="button button-outline" id="cancel-product-edit" type="button" hidden>Cancelar edición</button><button class="button button-dark" type="submit">Guardar plato</button></div>
+                    </form>
+                    <div class="product-list" id="product-list" aria-live="polite"></div>
+                    <section class="recipe-manager" aria-labelledby="recipes-title" data-admin-only>
+                        <div class="orders-heading">
+                            <div><h2 id="recipes-title">Recetas y producción</h2><p>Busca un plato y revisa sus insumos y consumo real por porción.</p></div>
+                        </div>
+                        <div class="recipe-filter-row">
+                            <label for="recipe-product">Buscar plato
+                                <select id="recipe-product" aria-label="Buscar receta por plato"></select>
+                            </label>
+                            <p>Selecciona “Todos los platos” para ver las recetas configuradas. Abre cada plato para consultar sus insumos.</p>
+                        </div>
+                        <div class="table-scroll">
+                            <table class="inventory-table">
+                                <thead><tr><th>Platos y recetas</th></tr></thead>
+                                <tbody id="recipe-body"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                    <section class="promotion-manager" aria-labelledby="promotions-title" data-promotion-write>
+                        <div class="orders-heading">
+                            <div><h2 id="promotions-title">Destacados del carrusel</h2><p>Promociones, platos estrella e imágenes o videos cortos.</p></div>
+                            <button class="button button-outline" id="reset-promotion-form" type="button">+ Nuevo destacado</button>
+                        </div>
+                        <form id="promotion-form" class="promotion-form">
+                            <input name="id" type="hidden">
+                            <label>Título<input name="titulo" maxlength="100" required></label>
+                            <label>Descripción<textarea name="descripcion" rows="2" maxlength="240"></textarea></label>
+                            <label>Medio<select name="tipo_media" required><option value="imagen">Imagen</option><option value="video">Video corto</option></select></label>
+                            <div class="media-dropzone-wrapper">
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Archivo de destacado (Optimizado a WebP)
+                                    <div class="file-dropzone" id="promotion-dropzone" tabindex="0" role="button" aria-label="Subir imagen o video de la promoción">
+                                        <input type="file" id="promotion-file-input" accept="image/webp,image/png,image/jpeg,image/jpg,image/avif,video/mp4" class="hidden-file-input">
+                                        <div class="dropzone-prompt" id="promotion-dropzone-prompt">
+                                            <span class="text-xl" aria-hidden="true">📤</span>
+                                            <strong>Subir archivo (se optimizará a .webp)</strong>
+                                            <small>Arrastra una imagen o haz clic para seleccionar (PNG, JPG, WebP, MP4)</small>
+                                        </div>
+                                        <div class="media-preview-box" id="promotion-preview-box" hidden>
+                                            <img id="promotion-preview-img" class="media-preview-thumb" src="" alt="Vista previa WebP" hidden>
+                                            <video id="promotion-preview-video" class="media-preview-thumb" src="" muted controls hidden></video>
+                                            <div class="media-preview-details">
+                                                <span class="media-preview-badge" id="promotion-preview-badge">WebP Optimizado</span>
+                                                <span class="text-slate-400 text-[10px]" id="promotion-preview-name"></span>
+                                            </div>
+                                            <button type="button" class="media-preview-remove" id="promotion-preview-remove" title="Quitar archivo">×</button>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label>Ruta local img/<input name="media_url" id="promotion-media-url" list="local-media-assets" maxlength="500" placeholder="img/prom.mp4 o img/promo.avif" required></label>
+                            </div>
+                            <label>Orden<input name="orden" type="number" min="0" max="999" value="0" required></label>
+                            <label class="promotion-active"><input name="activa" type="checkbox" checked> Publicar en el carrusel</label>
+                            <div class="product-form-actions"><button class="button button-outline" id="cancel-promotion-edit" type="button" hidden>Cancelar</button><button class="button button-dark" type="submit">Guardar destacado</button></div>
+                            <p class="promotion-help">Los archivos locales deben existir en <code>img/</code> y respetar exactamente mayúsculas, minúsculas y acentos. Para videos, usa MP4/WebM o una URL HTTPS directa al archivo.</p>
+                        </form>
+                        <div class="promotion-list" id="promotion-list" aria-live="polite"></div>
+                    </section>
+                </section>
+                <datalist id="local-media-assets">
+                    <option value="img/prom.mp4"></option>
+                    <option value="img/promo.avif"></option>
+                    <option value="img/delifrygour.webp"></option>
+                    <option value="img/domicilio.avif"></option>
+                    <option value="img/platillos.avif"></option>
+                    <option value="img/plato.avif"></option>
+                    <option value="img/plato a la carta.avif"></option>
+                    <option value="img/bbq.avif"></option>
+                    <option value="img/nugget.avif"></option>
+                    <option value="img/SALCHIPAPA.webp"></option>
+                    <option value="img/Solomillo Wagyu A5 Miyazaki.webp"></option>
+                    <option value="img/coctel.webp"></option>
+                </datalist>
+
+                <section class="panel orders-panel admin-tab-panel" id="pedidos" role="tabpanel" aria-labelledby="admin-tab-pedidos" data-admin-panel="pedidos" hidden>
+                    <div class="role-mode-banner" id="pedidos-role-banner" hidden></div>
+                    <div class="orders-heading">
+                        <div><h2 id="orders-title">Pedidos del servicio</h2><p id="orders-subtitle">Supervisa y actualiza cada pedido del servicio.</p></div>
+                        <button class="button button-dark compact-new-order" id="admin-new-order-btn" type="button" data-open-order>+ Añadir pedido</button>
+                    </div>
+                    <div id="pending-payments-review" hidden></div>
+                    <div class="orders-toolbar">
+                        <div class="status-tabs" role="tablist" aria-label="Filtrar pedidos por estado">
+                            <button class="status-tab is-selected" type="button" role="tab" aria-selected="true" data-filter="all">Todos <span id="count-all">0</span></button>
+                            <button class="status-tab" type="button" role="tab" aria-selected="false" data-filter="Pendiente">Pendientes <span id="count-pending">0</span></button>
+                            <button class="status-tab" type="button" role="tab" aria-selected="false" data-filter="En preparación">En preparación <span id="count-preparing">0</span></button>
+                            <button class="status-tab" type="button" role="tab" aria-selected="false" data-filter="Listo">Listos <span id="count-ready">0</span></button>
+                            <button class="status-tab" type="button" role="tab" aria-selected="false" data-filter="En camino">En camino <span id="count-delivering">0</span></button>
+                            <button class="status-tab" type="button" role="tab" aria-selected="false" data-filter="Entregado">Entregados <span id="count-delivered">0</span></button>
+                        </div>
+                        <label class="search-box">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
+                            <span class="visually-hidden">Buscar pedidos</span>
+                            <input id="order-search" type="search" placeholder="Buscar pedido..." autocomplete="off">
+                            <kbd>⌘ K</kbd>
+                        </label>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="orders-table">
+                            <thead><tr><th>Pedido</th><th>Cliente / entrega</th><th>Platos</th><th>Hora</th><th>Total</th><th>Estado</th><th><span class="visually-hidden">Acciones</span></th></tr></thead>
+                            <tbody id="orders-body"></tbody>
+                        </table>
+                        <div class="empty-state" id="empty-state" hidden>
+                            <span aria-hidden="true">⌕</span>
+                            <strong>No encontramos pedidos</strong>
+                            <p>Prueba con otro término o cambia el filtro.</p>
+                        </div>
+                    </div>
+                    <div class="table-footer"><span id="results-label">Mostrando 0 pedidos</span><div class="pagination"><button type="button" disabled aria-label="Página anterior">‹</button><button type="button" class="current-page" aria-current="page">1</button><button type="button" disabled aria-label="Página siguiente">›</button></div></div>
+                </section>
+
+                <section class="panel inventory-panel admin-tab-panel" id="inventario" role="tabpanel" aria-labelledby="admin-tab-inventario" data-admin-panel="inventario" hidden>
+                    <div class="orders-heading">
+                        <div>
+                            <h2 id="inventory-title">Inventario de cocina</h2>
+                            <p>Existencias y niveles mínimos de ingredientes.</p>
+                        </div>
+                        <div class="inventory-heading-actions">
+                            <div class="inventory-valuation" aria-live="polite">
+                                <span>Valor Total del Inventario</span>
+                                <strong id="inventory-total-value">S/ 0.00</strong>
+                            </div>
+                            <button class="button button-dark" id="adjust-inventory-button" type="button" data-inventory-write>+ Ajustar existencias</button>
+                        </div>
+                    </div>
+                    <div class="inventory-tabs" role="tablist" aria-label="Secciones de inventario">
+                        <button type="button" class="inventory-tab is-active" data-inventory-tab="stock" role="tab">Inventario</button>
+                        <button type="button" class="inventory-tab" data-inventory-tab="reposition" role="tab">Reposición TXT</button>
+                        <button type="button" class="inventory-tab" data-inventory-tab="waste" role="tab">Control de merma</button>
+                        <button type="button" class="inventory-tab" data-inventory-tab="movements" role="tab">Movimientos</button>
+                    </div>
+                    <div data-inventory-view="stock">
+                    <div class="inventory-export-actions">
+                        <button type="button" class="button button-outline" id="inventory-export-txt">Exportar TXT</button>
+                        <button type="button" class="button button-outline" id="inventory-export-pdf">Exportar PDF</button>
+                        <button type="button" class="button button-outline" id="inventory-export-excel">Exportar Excel</button>
+                    </div>
+                    <form id="ingredient-form" class="product-form" data-inventory-write>
+                        <label>Ingrediente<input name="nombre" maxlength="100" required></label>
+                        <label>Cantidad inicial<input name="cantidad" type="number" min="0" max="99999" step="0.001" required></label>
+                        <label>Mínimo recomendado<input name="minimo" type="number" min="0" max="99999" step="0.001" required></label>
+                        <label>Unidad
+                            <select name="unidad" data-unit-selector required></select>
+                        </label>
+                        <label>Precio unitario (S/)<input name="precio_unitario" type="number" min="0" max="99999999.99" step="0.01" value="0" inputmode="decimal"></label>
+                        <label>Categoría
+                            <select name="categoria" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="Verduras y Tubérculos">Verduras y Tubérculos</option>
+                                <option value="Carnes y Aves">Carnes y Aves</option>
+                                <option value="Panadería y Lácteos">Panadería y Lácteos</option>
+                                <option value="Salsas y Condimentos">Salsas y Condimentos</option>
+                                <option value="Bebidas">Bebidas</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                        </label>
+                        <div class="product-form-actions"><button class="button button-dark" type="submit">Añadir ingrediente</button></div>
+                    </form>
+                    <div class="table-scroll">
+                        <table class="inventory-table">
+                            <thead><tr><th>Ingrediente</th><th>Categoría</th><th>Existencia</th><th>Mínimo</th><th>Precio Unit. (S/)</th><th>Valor Stock (S/)</th><th>Estado</th><th>Acción</th></tr></thead>
+                            <tbody id="inventory-body"></tbody>
+                        </table>
+                    </div>
+                    <p class="inventory-footnote" id="inventory-footnote"></p>
+                    </div>
+                    <div data-inventory-view="reposition" hidden>
+                        <label class="advanced-dropzone" for="inventory-replenishment-file" data-inventory-write>
+                            <input type="file" id="inventory-replenishment-file" accept=".txt,text/plain">
+                            <strong>Arrastra o selecciona un TXT de reposición</strong>
+                            <small>Formato: Nombre del ingrediente | cantidad | unidad</small>
+                            <a href="/public/plantilla_reposicion.txt" download>Descargar plantilla TXT</a>
+                        </label>
+                    </div>
+                    <div data-inventory-view="waste" hidden>
+                        <div class="advanced-empty">Registra auditorías reales aquí. El stock teórico se comparará con el conteo físico desde la tabla auxiliar de auditoría.</div>
+                    </div>
+                    <div data-inventory-view="movements" hidden>
+                        <div class="advanced-empty">El historial de reposiciones y movimientos se carga desde <code>inventario_movimientos</code>.</div>
+                    </div>
+                </section>
+
+                <section class="panel reviews-panel admin-tab-panel" id="opiniones" role="tabpanel" aria-labelledby="admin-tab-opiniones" data-admin-panel="opiniones" hidden>
+                    <div class="panel-heading">
+                        <div><h2 id="reviews-title">Opiniones de comensales</h2><p>Calificaciones recibidas después del servicio.</p></div>
+                        <div class="review-average" id="review-average">—</div>
+                    </div>
+                    <div class="review-list" id="review-list"></div>
+                </section>
+
+                <section class="panel staff-panel admin-tab-panel" id="personal" role="tabpanel" aria-labelledby="admin-tab-personal" data-admin-panel="personal" hidden>
+                    <div class="orders-heading">
+                        <div>
+                            <h2 id="staff-title">Gestión de Equipo y Asistencia</h2>
+                            <p>Visualiza y administra colaboradores, roles operativos, estado de acceso y registro auditado de turnos y asistencia.</p>
+                        </div>
+                        <button class="button button-dark" id="reset-staff-form" type="button" data-administrator-only>+ Agregar personal</button>
+                    </div>
+                    <section class="attendance-self-card" aria-labelledby="self-attendance-title">
+                        <div><h3 id="self-attendance-title">Mi turno</h3><p id="self-attendance-status">Consulta tu estado de asistencia.</p></div>
+                        <div class="attendance-actions">
+                            <button class="button button-dark" id="mark-self-entry" type="button">Marcar Entrada</button>
+                            <button class="button button-outline" id="mark-self-exit" type="button">Marcar Salida</button>
+                        </div>
+                    </section>
+                    <section class="attendance-admin-section" data-administrator-only>
+                        <h3>Marcar en nombre de un trabajador</h3>
+                        <div class="attendance-manual-form">
+                            <label>Trabajador<select id="attendance-person-select" required></select></label>
+                            <button class="button button-dark" id="mark-person-entry" type="button">Marcar Entrada</button>
+                            <button class="button button-outline" id="mark-person-exit" type="button">Marcar Salida</button>
+                        </div>
+                    </section>
+                    <div class="table-scroll">
+                        <table class="staff-table attendance-table">
+                            <thead><tr><th>Trabajador</th><th>Fecha</th><th>Entrada</th><th>Salida</th><th>Tiempo trabajado</th><th>Admin. entrada</th><th>Admin. salida</th></tr></thead>
+                            <tbody id="attendance-body"></tbody>
+                        </table>
+                    </div>
+                    <form id="staff-form" class="product-form staff-form" data-administrator-only>
+                        <input name="userId" type="hidden">
+                        <label>Nombre<input name="nombre" maxlength="100" placeholder="Ej. Juan Pérez" required></label>
+                        <label>Correo electrónico<input name="email" type="email" autocomplete="email" placeholder="juan@frygourmett.com" required></label>
+                        <label>Teléfono<input name="telefono" type="tel" inputmode="tel" minlength="7" maxlength="24" placeholder="+51 999 999 999" required></label>
+                        <label>Rol
+                            <select name="rol" required>
+                                <option value="">Seleccionar rol ▼</option>
+                                <option value="administrador">Administrador (Acceso total)</option>
+                                <option value="gerente">Gerente (Dashboard, reportes y consulta de personal/inventario)</option>
+                                <option value="almacenero">Almacenero (Control de stock, recetas y merma)</option>
+                                <option value="recepcionista">Recepcionista (Atención, pedidos y carta)</option>
+                                <option value="repartidor">Repartidor (Entregas y delivery)</option>
+                            </select>
+                        </label>
+                        <label id="staff-password-label">Contraseña<input name="password" type="password" minlength="8" autocomplete="new-password" placeholder="Mínimo 8 caracteres" required></label>
+                        <div class="product-form-actions">
+                            <button class="button button-outline" id="cancel-staff-edit" type="button" hidden>Cancelar edición</button>
+                            <button class="button button-dark" type="submit">Crear usuario</button>
+                        </div>
+                    </form>
+                    <div class="table-scroll" data-admin-only>
+                        <table class="staff-table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                    <th>Registrado / Modificado por</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staff-body"></tbody>
+                        </table>
+                    </div>
+                    <p class="staff-footnote" id="staff-footnote" data-admin-only>Los trabajadores pueden iniciar sesión con su correo y contraseña directamente.</p>
+                    <section class="service-config" data-administrator-only aria-labelledby="service-config-title">
+                        <div class="orders-heading"><div><h3 id="service-config-title">Horario y estado de cocina</h3><p>El estado automático depende del personal activo de cocina; también puedes fijar un estado manual.</p></div></div>
+                        <form id="service-config-form" class="product-form">
+                            <label>Hora de apertura<input name="hora_apertura" type="time"></label>
+                            <label>Hora de cierre<input name="hora_cierre" type="time"></label>
+                            <label>Estado de cocina
+                                <select name="estado_cocina_override">
+                                    <option value="auto">Automático por personal activo</option>
+                                    <option value="open">Abierto</option>
+                                    <option value="closed">Cerrado</option>
+                                </select>
+                            </label>
+                            <div class="product-form-actions"><button class="button button-dark" type="submit">Guardar configuración</button></div>
+                        </form>
+                    </section>
+                </section>
+
+                <!-- PANEL: POLÍTICAS Y TÉRMINOS -->
+                <section class="panel admin-tab-panel" id="politicas" role="tabpanel" aria-labelledby="admin-tab-politicas" data-admin-panel="politicas" hidden>
+                    <div class="orders-heading">
+                        <div>
+                            <h2 id="policies-title">Políticas y Términos</h2>
+                            <p>Administra los términos legales, privacidad y cookies visibles para los comensales.</p>
+                        </div>
+                        <div class="policies-heading-actions">
+                            <button class="button button-gold" id="save-policies-btn" type="button">Guardar cambios</button>
+                        </div>
+                    </div>
+
+                    <div class="policy-tabs" role="tablist">
+                        <button class="policy-tab is-active" type="button" data-policy-tab="privacy">Privacidad</button>
+                        <button class="policy-tab" type="button" data-policy-tab="terms">Términos y Condiciones</button>
+                        <button class="policy-tab" type="button" data-policy-tab="cookies">Cookies</button>
+                    </div>
+
+                    <div class="policy-content-wrap">
+                        <div class="policy-editor-card" id="policy-card-privacy">
+                            <label>Política de Privacidad
+                                <span class="policy-hint">Protección de datos conforme a la Ley N° 29733 (Perú). Tratamiento de datos de contacto y entrega.</span>
+                                <textarea id="policy-privacy-text" rows="10" class="policy-textarea">En FRYGOURMETT (Lima, Perú), valoramos y protegemos la privacidad de nuestros clientes. Los datos personales recolectados a través de nuestra plataforma (nombre, correo electrónico, teléfono de contacto y dirección de entrega) son utilizados exclusivamente para la gestión, despacho y entrega de sus pedidos gastronómicos, así como para la emisión de comprobantes de pago. No compartimos sus datos personales con terceros para fines comerciales o publicitarios ajenos a nuestro servicio.</textarea>
+                            </label>
+                        </div>
+
+                        <div class="policy-editor-card" id="policy-card-terms" hidden>
+                            <label>Términos y Condiciones del Servicio
+                                <span class="policy-hint">Condiciones de venta, cobertura de delivery en Lima, horario operativo y políticas de cancelación.</span>
+                                <textarea id="policy-terms-text" rows="10" class="policy-textarea">1. Horario de atención: 3:00 PM a 3:00 AM todos los días.
+2. Pedidos y Cobertura: Los despachos se realizan en las zonas de cobertura habilitadas en Lima Metropolitana con un tiempo estimado de entrega de 35 a 45 minutos sujeto al tráfico vehicular y condiciones climáticas.
+3. Métodos de Pago: Se aceptan pagos mediante Yape, Plin, Transferencia Interbank y efectivo contra entrega.
+4. Modificaciones y Cancelaciones: Debido a que preparamos cada plato al momento, las cancelaciones solo podrán realizarse dentro de los primeros 5 minutos posteriores a la confirmación del pedido.</textarea>
+                            </label>
+                        </div>
+
+                        <div class="policy-editor-card" id="policy-card-cookies" hidden>
+                            <label>Política de Cookies y Almacenamiento Local
+                                <span class="policy-hint">Almacenamiento de sesión segura, contenido del carrito y preferencias de visualización (modo oscuro/claro).</span>
+                                <textarea id="policy-cookies-text" rows="10" class="policy-textarea">FRYGOURMETT utiliza tecnologías de almacenamiento local y cookies técnicas estrictamente necesarias para el correcto funcionamiento de la plataforma web:
+- Mantener los productos seleccionados en su carrito de compras durante su visita.
+- Conservar la sesión de usuario iniciada de forma segura mediante Supabase Auth.
+- Guardar su preferencia de tema visual (Modo Claro o Modo Oscuro).
+No utilizamos cookies de seguimiento publicitario de terceros.</textarea>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PANEL: LIBRO DE RECLAMACIONES -->
+                <section class="panel admin-tab-panel" id="reclamaciones" role="tabpanel" aria-labelledby="admin-tab-reclamaciones" data-admin-panel="reclamaciones" hidden>
+                    <div class="orders-heading">
+                        <div>
+                            <h2 id="complaints-title">Libro de Reclamaciones Virtual</h2>
+                            <p>Registro y atención de reclamos y quejas conforme al Código de Protección y Defensa del Consumidor (INDECOPI - Ley 29571).</p>
+                        </div>
+                        <span class="indecopi-badge">INDECOPI · VIRTUAL</span>
+                    </div>
+
+                    <div class="claims-summary-grid">
+                        <div class="claims-stat-card">
+                            <span>Total Reclamaciones</span>
+                            <strong id="claims-count-total">0</strong>
+                        </div>
+                        <div class="claims-stat-card">
+                            <span>Pendientes de Respuesta</span>
+                            <strong id="claims-count-pending" class="text-amber">0</strong>
+                        </div>
+                        <div class="claims-stat-card">
+                            <span>Atendidos en Plazo</span>
+                            <strong id="claims-count-resolved" class="text-green">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll">
+                        <table class="inventory-table claims-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Consumidor</th>
+                                    <th>Contacto</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                    <th>Pedido Ref.</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="claims-body">
+                                <tr>
+                                    <td colspan="8" class="claims-empty-state">No hay reclamos ni quejas pendientes registrados.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- PANEL: CONFIGURACIÓN GENERAL -->
+                <section class="panel admin-tab-panel" id="configuracion" role="tabpanel" aria-labelledby="admin-tab-configuracion" data-admin-panel="configuracion" hidden>
+                    <div class="orders-heading">
+                        <div>
+                            <h2 id="settings-title">Configuración del Sistema</h2>
+                            <p>Ajustes de marca, horarios de servicio, parámetros de delivery y apariencia.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-grid">
+                        <article class="settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-card-icon">🏛</span>
+                                <div>
+                                    <h3>Información de la Marca</h3>
+                                    <p>Datos visibles del restaurante y razón social.</p>
+                                </div>
+                            </div>
+                            <div class="settings-card-body">
+                                <label>Nombre comercial<input type="text" value="FRYGOURMETT" readonly></label>
+                                <label>Concepto<input type="text" value="Fast Casual Gourmet · Doble Cocción" readonly></label>
+                                <label>Ubicación principal<input type="text" value="Lima, Perú" readonly></label>
+                                <label>WhatsApp de atención<input type="tel" value="+51 968 776 288" readonly></label>
+                            </div>
+                        </article>
+
+                        <article class="settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-card-icon">⏰</span>
+                                <div>
+                                    <h3>Horario de Atención</h3>
+                                    <p>Horario operativo sincronizado con el indicador de cocina.</p>
+                                </div>
+                            </div>
+                            <div class="settings-card-body">
+                                <div class="schedule-badge-preview">
+                                    <span>Horario oficial:</span>
+                                    <strong>3:00 PM a 3:00 AM (Lima, UTC-5)</strong>
+                                </div>
+                                <p class="schedule-note">El horario está optimizado para atención diurna y pedidos nocturnos de alta demanda.</p>
+                            </div>
+                        </article>
+
+                        <article class="settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-card-icon">🛵</span>
+                                <div>
+                                    <h3>Parámetros de Delivery</h3>
+                                    <p>Tiempos promedio y cobertura.</p>
+                                </div>
+                            </div>
+                            <div class="settings-card-body">
+                                <label>Tiempo estimado de entrega<input type="text" value="35 a 45 minutos" readonly></label>
+                                <label>Cobertura geográfica<input type="text" value="Lima Metropolitana (Zonas habilitadas)" readonly></label>
+                            </div>
+                        </article>
+
+                        <article class="settings-card">
+                            <div class="settings-card-header">
+                                <span class="settings-card-icon">🎨</span>
+                                <div>
+                                    <h3>Apariencia del Panel</h3>
+                                    <p>Alterna entre tema oscuro gastronómico y tema claro.</p>
+                                </div>
+                            </div>
+                            <div class="settings-card-body">
+                                <div class="theme-options-grid">
+                                    <button type="button" class="theme-option-btn is-dark-btn" id="set-theme-dark-btn">
+                                        <span class="theme-swatch dark-swatch"></span>
+                                        <strong>Modo Oscuro</strong>
+                                        <small>Azul noche & acentos dorados</small>
+                                    </button>
+                                    <button type="button" class="theme-option-btn is-light-btn" id="set-theme-light-btn">
+                                        <span class="theme-swatch light-swatch"></span>
+                                        <strong>Modo Claro</strong>
+                                        <small>Limpio y de alto contraste</small>
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                <section class="panel staff-chat-panel admin-tab-panel" id="mensajes" role="tabpanel" aria-labelledby="admin-tab-mensajes" data-admin-panel="mensajes" hidden>
+                    <div class="orders-heading">
+                        <div>
+                            <h2>Mensajes internos del equipo</h2>
+                            <p>Comunicación en tiempo real entre el personal operativo.</p>
+                        </div>
+                    </div>
+                    <p class="staff-chat-permissions-note">
+                        #general y #pedidos: todo el personal. #inventario: solo Administrador, Gerente y Almacenero.
+                        Recepcionista y Repartidor no pueden leer ni escribir en #inventario.
+                    </p>
+                    <div class="staff-chat-card">
+                        <div class="staff-chat-channel-tabs" id="staff-chat-channels" role="tablist" aria-label="Canales del chat">
+                            <button class="staff-chat-channel is-active" id="chat-channel-general" type="button" role="tab" aria-controls="staff-chat-channel-panel" aria-selected="true" data-chat-channel="general">
+                                #general <span class="chat-unread-count" id="chat-unread-general" hidden></span>
+                            </button>
+                            <button class="staff-chat-channel" id="chat-channel-pedidos" type="button" role="tab" aria-controls="staff-chat-channel-panel" aria-selected="false" data-chat-channel="pedidos" tabindex="-1">
+                                #pedidos <span class="chat-unread-count" id="chat-unread-pedidos" hidden></span>
+                            </button>
+                            <button class="staff-chat-channel" id="chat-channel-inventario" type="button" role="tab" aria-controls="staff-chat-channel-panel" aria-selected="false" data-chat-channel="inventario" tabindex="-1">
+                                #inventario <span class="chat-unread-count" id="chat-unread-inventario" hidden></span>
+                            </button>
+                        </div>
+                        <div class="staff-chat-content" id="staff-chat-channel-panel" role="tabpanel" aria-labelledby="chat-channel-general" tabindex="0">
+                            <button class="staff-chat-load-older" id="staff-chat-load-older" type="button" hidden>Cargar mensajes anteriores</button>
+                            <div class="staff-chat-log" id="staff-chat-log" role="log" aria-live="polite" aria-relevant="additions text">
+                                Inicia sesión con una cuenta del personal para cargar los mensajes.
+                            </div>
+                            <p class="staff-chat-status" id="staff-chat-status" role="status" aria-live="polite"></p>
+                            <form class="staff-chat-form" id="staff-chat-form">
+                                <label for="staff-chat-message">Mensaje</label>
+                                <textarea id="staff-chat-message" name="contenido" rows="2" maxlength="2000" placeholder="Escribe un mensaje para el equipo..." required></textarea>
+                                <div class="staff-chat-form-footer">
+                                    <small>Máximo 2000 caracteres.</small>
+                                    <button class="button button-dark" type="submit">Enviar mensaje</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+                <footer class="app-footer"><span>© <span id="current-year"></span> Frygourmett</span><span>Servicio hecho con cuidado <span aria-label="amor">♥</span></span></footer>
+            </div>
+        </main>
+    </div>
+
+    <div class="overlay" id="order-modal" hidden>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-heading"><div><p class="eyebrow">SERVICIO DE HOY</p><h2 id="modal-title">Crear pedido</h2></div><button class="icon-button close-modal" type="button" data-close-order aria-label="Cerrar formulario">×</button></div>
+            <form id="new-order-form">
+                <label>Nombre del cliente<input name="customer" type="text" placeholder="Ej. Lucía Fernández" maxlength="60" required></label>
+                <label>Correo del comensal<input name="customerEmail" type="email" placeholder="cliente@correo.com" required></label>
+                <label>Teléfono de contacto<input name="telefono_contacto" type="tel" inputmode="tel" minlength="7" maxlength="24" required></label>
+                <label>Dirección exacta<input name="direccion_entrega" type="text" maxlength="240" required></label>
+                <label>Distrito / Zona<input name="distrito_zona" type="text" maxlength="100" required></label>
+                <label>Referencia<input name="referencia" type="text" maxlength="240" required></label>
+                <div class="form-grid">
+                    <label>Plato principal<select name="dish" required><option value="">Selecciona un plato</option></select></label>
+                    <label>Unidades<input name="quantity" type="number" min="1" max="20" value="1" required></label>
+                </div>
+                <label>Nota para cocina <span class="optional-label">Opcional</span><textarea name="note" rows="2" maxlength="140" placeholder="Alergias, punto de cocción..."></textarea></label>
+                <div class="modal-actions"><button class="button button-outline" type="button" data-close-order>Cancelar</button><button class="button button-dark" type="submit">Crear pedido</button></div>
+            </form>
+        </section>
+    </div>
+    <div class="overlay" id="order-detail-modal" hidden>
+        <section class="modal-card order-detail-modal-card" role="dialog" aria-modal="true" aria-labelledby="order-detail-title">
+            <div class="modal-heading">
+                <div><p class="eyebrow">DETALLE DE ENTREGA</p><h2 id="order-detail-title">Detalle del pedido</h2></div>
+                <button class="icon-button close-modal" type="button" data-close-order-detail aria-label="Cerrar detalle del pedido">×</button>
+            </div>
+            <dl class="order-detail-list">
+                <div><dt>Cliente y contacto</dt><dd id="order-detail-customer"></dd></div>
+                <div><dt>Dirección</dt><dd id="order-detail-address"></dd></div>
+                <div><dt>Pedido</dt><dd id="order-detail-items"></dd></div>
+                <div><dt>Total</dt><dd id="order-detail-total"></dd></div>
+                <div class="order-payment-highlight"><dt>Método de pago</dt><dd id="order-detail-payment-method"></dd><p id="order-detail-payment-details"></p></div>
+            </dl>
+            <div class="modal-actions"><button class="button button-dark" type="button" data-close-order-detail>Cerrar</button></div>
+        </section>
+    </div>
+    <div class="overlay" id="inventory-modal" hidden>
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="inventory-modal-title">
+            <div class="modal-heading"><div><p class="eyebrow">GESTIÓN DE COCINA</p><h2 id="inventory-modal-title">Ajustar existencias</h2></div><button class="icon-button" type="button" data-close-inventory aria-label="Cerrar formulario de inventario">×</button></div>
+            <form id="inventory-form">
+                <label>Ingrediente<select name="itemId" id="inventory-item-select" required></select></label>
+                <label>Tipo de movimiento
+                    <select name="movement_type" id="inventory-movement-type" required>
+                        <option value="set">Ajuste manual de existencias (fijar total)</option>
+                        <option value="entry">+ Entrada / Compra de insumos</option>
+                        <option value="waste">- Registro de Merma / Baja (desperdicio, vencimiento, daño)</option>
+                    </select>
+                </label>
+                <label id="inventory-qty-label"><span id="inventory-qty-title">Nueva existencia</span><input name="quantity" id="inventory-quantity" type="number" min="0" max="99999" step="0.001" required></label>
+                <div id="inventory-waste-reason-row" hidden>
+                    <label>Motivo de la merma
+                        <select name="waste_reason" id="inventory-waste-reason">
+                            <option value="Vencimiento">Vencimiento del producto</option>
+                            <option value="Merma en manipulación / corte">Merma en manipulación o pelado</option>
+                            <option value="Deterioro / cadena de frío">Deterioro o ruptura de cadena de frío</option>
+                            <option value="Rotura / daño accidental">Rotura o daño accidental</option>
+                            <option value="Otro">Otro motivo</option>
+                        </select>
+                    </label>
+                </div>
+                <label>Precio unitario de compra (S/)<input name="precio_unitario" id="inventory-unit-price" type="number" min="0" max="99999999.99" step="0.01" inputmode="decimal" required></label>
+                <p class="role-warning" id="inventory-helper-note">El precio se registra por unidad de medida; no se suma a la cantidad física.</p>
+                <div class="modal-actions"><button class="button button-outline" type="button" data-close-inventory>Cancelar</button><button class="button button-dark" type="submit">Guardar existencias</button></div>
+            </form>
+        </section>
+    </div>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <div class="pm-pal" id="pm-command-palette" role="dialog" aria-modal="true" aria-label="Paleta de comandos" hidden>
+        <div class="pm-pal-dialog">
+            <div class="pm-pal-head">
+                <i class="fa-solid fa-terminal text-amber-400 text-xs" aria-hidden="true"></i>
+                <input id="pm-pal-input" type="search" placeholder="Escribe una acción (Carta, Pedidos, Inventario, Cocina...)" aria-label="Buscar acción rápida" autocomplete="off">
+                <kbd class="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-slate-400">ESC</kbd>
+            </div>
+            <div class="pm-pal-list" id="pm-pal-list" role="listbox"></div>
+        </div>
+    </div>
+</body>
+</html>

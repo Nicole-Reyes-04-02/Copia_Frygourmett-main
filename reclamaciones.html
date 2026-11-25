@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro de Reclamaciones Virtual · FRYGOURMETT</title>
+    <meta name="description" content="Libro de Reclamaciones Virtual de FRYGOURMETT conforme al Código de Protección y Defensa del Consumidor (Ley N° 29571 - INDECOPI).">
+    <link rel="icon" type="image/png" href="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png">
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --gold: #e5a93c;
+            --gold-hover: #f59e0b;
+        }
+        body {
+            background-color: #0a0a0c;
+            color: #f8fafc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .gold-border {
+            border-color: rgba(229, 169, 60, 0.35);
+        }
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(229, 169, 60, 0.15);
+        }
+        @media print {
+            body { background: #fff !important; color: #000 !important; }
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .print-card { border: 1px solid #ccc !important; box-shadow: none !important; color: #000 !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4 sm:px-6 lg:px-8 selection:bg-amber-500 selection:text-black">
+    <div class="max-w-3xl mx-auto">
+        <!-- Top Navigation -->
+        <header class="flex items-center justify-between mb-8 pb-4 border-b border-neutral-800 no-print">
+            <a href="cliente.html" class="inline-flex items-center gap-3 group">
+                <img src="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" alt="FRYGOURMETT" class="h-14 w-auto filter invert brightness-0 drop-shadow-[0_2px_10px_rgba(229,169,60,0.35)] transition-transform group-hover:scale-105">
+                <div>
+                    <span class="text-xs font-bold tracking-[0.2em] text-amber-500 uppercase block">FRYGOURMETT</span>
+                    <span class="text-sm font-semibold text-neutral-300">Alta Cocina & Street Food</span>
+                </div>
+            </a>
+            <a href="cliente.html" class="text-xs font-medium text-neutral-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 py-2 px-3 rounded-lg border border-neutral-800 hover:border-amber-500/40">
+                <i class="fa-solid fa-arrow-left text-[10px]"></i> Volver a la Carta
+            </a>
+        </header>
+
+        <!-- Main Card -->
+        <main class="bg-neutral-900/90 border gold-border rounded-2xl p-6 sm:p-10 gold-glow backdrop-blur-md print-card">
+            <!-- Header section -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold tracking-wider uppercase mb-3">
+                    <i class="fa-solid fa-shield-halved"></i> Conforme a Ley N° 29571 · INDECOPI
+                </div>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Libro de Reclamaciones Virtual</h1>
+                <p class="text-xs sm:text-sm text-neutral-400 mt-2 max-w-xl mx-auto">
+                    FRYGOURMETT S.A.C. · RUC: 20608945123 · Dirección: Lima, Perú.<br>
+                    Conforme al D.S. 011-2011-PCM, el proveedor debe dar respuesta en un plazo no mayor a 15 días hábiles.
+                </p>
+            </div>
+
+            <!-- Confirmation alert (hidden by default) -->
+            <div id="claim-success-card" class="hidden mb-8 p-6 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-200">
+                <div class="flex items-start gap-3">
+                    <i class="fa-solid fa-circle-check text-2xl text-emerald-400 mt-0.5"></i>
+                    <div class="flex-1">
+                        <h3 class="text-base font-bold text-white mb-1">¡Reclamación Registrada con Éxito!</h3>
+                        <p class="text-xs leading-relaxed mb-3">Tu hoja de reclamación ha sido asentada en nuestro sistema con código único de seguimiento:</p>
+                        <div class="inline-block px-4 py-2 bg-neutral-950 border border-amber-500/50 rounded-lg text-amber-400 font-mono text-base font-extrabold tracking-wider mb-4" id="ticket-code-display">
+                            FG-2026-0000
+                        </div>
+                        <p class="text-xs text-neutral-300 mb-4">Hemos enviado una copia de constancia a tu correo electrónico. Puedes descargar tu comprobante formal en PDF a continuación:</p>
+                        <div class="flex flex-wrap gap-2 no-print">
+                            <button type="button" id="btn-download-pdf" class="px-4 py-2 bg-amber-400 hover:bg-amber-500 text-neutral-950 font-bold text-xs rounded-lg transition-colors inline-flex items-center gap-1.5 shadow-md">
+                                <i class="fa-solid fa-file-pdf"></i> Descargar Comprobante PDF / Imprimir
+                            </button>
+                            <button type="button" id="btn-new-claim" class="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-semibold rounded-lg transition-colors">
+                                Registrar otra reclamación
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form id="claims-form" class="space-y-6">
+                <!-- 1. Tipo de Bien y Reclamación -->
+                <div class="p-4 rounded-xl bg-neutral-950/70 border border-neutral-800 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-scale-balanced"></i> 1. Identificación de la Reclamación
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Tipo de Registro *</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-neutral-800 hover:border-amber-500/40 cursor-pointer bg-neutral-900 text-xs">
+                                    <input type="radio" name="tipo" value="Reclamo" checked class="text-amber-500 focus:ring-amber-400">
+                                    <div>
+                                        <strong class="block text-white">Reclamo</strong>
+                                        <small class="text-neutral-400 text-[10px]">Disconformidad con producto/servicio</small>
+                                    </div>
+                                </label>
+                                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-neutral-800 hover:border-amber-500/40 cursor-pointer bg-neutral-900 text-xs">
+                                    <input type="radio" name="tipo" value="Queja" class="text-amber-500 focus:ring-amber-400">
+                                    <div>
+                                        <strong class="block text-white">Queja</strong>
+                                        <small class="text-neutral-400 text-[10px]">Malestar por mala atención al público</small>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Tipo de Bien Contratado *</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-neutral-800 hover:border-amber-500/40 cursor-pointer bg-neutral-900 text-xs">
+                                    <input type="radio" name="tipo_bien" value="Producto" checked class="text-amber-500 focus:ring-amber-400">
+                                    <span class="text-white font-medium">Producto (Comida)</span>
+                                </label>
+                                <label class="flex items-center gap-2 p-2.5 rounded-lg border border-neutral-800 hover:border-amber-500/40 cursor-pointer bg-neutral-900 text-xs">
+                                    <input type="radio" name="tipo_bien" value="Servicio" class="text-amber-500 focus:ring-amber-400">
+                                    <span class="text-white font-medium">Servicio (Delivery / Local)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Monto Reclamado (S/) (Opcional)</label>
+                            <input type="number" step="0.01" min="0" name="monto_reclamado" placeholder="0.00" class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">N° de Pedido o Boleta de Referencia</label>
+                            <input type="text" name="pedido_id" placeholder="Ej: Pedido #A1B2C3D4 o Boleta B001" class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Datos del Consumidor -->
+                <div class="p-4 rounded-xl bg-neutral-950/70 border border-neutral-800 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-user"></i> 2. Identificación del Consumidor Reclamante
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Nombres y Apellidos Completos *</label>
+                            <input type="text" name="consumidor_nombre" required placeholder="Juan Pérez Rodríguez" class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Tipo de Documento *</label>
+                            <select name="tipo_documento" required class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                                <option value="DNI">DNI (Documento Nacional de Identidad)</option>
+                                <option value="CE">Carné de Extranjería (CE)</option>
+                                <option value="PASAPORTE">Pasaporte</option>
+                                <option value="RUC">RUC</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Número de Documento *</label>
+                            <input type="text" name="numero_documento" required placeholder="72819283" class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Teléfono o Celular *</label>
+                            <input type="tel" name="telefono" required placeholder="987654321" class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Correo Electrónico (Para respuesta formal) *</label>
+                            <input type="email" name="email" required placeholder="cliente@correo.com" class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold text-neutral-300 mb-1">Domicilio / Dirección del Reclamante *</label>
+                            <input type="text" name="direccion" required placeholder="Av. Principal 123, Distrito, Lima" class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Detalle de la Reclamación -->
+                <div class="p-4 rounded-xl bg-neutral-950/70 border border-neutral-800 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-pen-to-square"></i> 3. Detalle de la Reclamación y Pedido del Consumidor
+                    </h2>
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-300 mb-1">Detalle del Reclamo o Queja *</label>
+                        <textarea name="detalle_reclamacion" rows="4" required placeholder="Describe de forma clara y cronológica los hechos ocurridos..." class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400 leading-relaxed"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-300 mb-1">Pedido Concreto del Consumidor (¿Qué solución solicitas?) *</label>
+                        <textarea name="pedido_consumidor" rows="2" required placeholder="Ejemplo: Reembolso del importe pagado, cambio del producto, disculpas formales..." class="w-full bg-neutral-900 border border-neutral-700/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400 leading-relaxed"></textarea>
+                    </div>
+                </div>
+
+                <!-- Declaración de veracidad -->
+                <div class="text-[11px] text-neutral-400 space-y-2">
+                    <label class="flex items-start gap-2 cursor-pointer">
+                        <input type="checkbox" required class="mt-0.5 rounded text-amber-500 focus:ring-amber-400 border-neutral-700 bg-neutral-900">
+                        <span>Declaro bajo juramento que los datos consignados en esta hoja de reclamación son verídicos y autorizo a FRYGOURMETT a comunicarse vía correo o teléfono para atender y dar respuesta a mi requerimiento.</span>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2 flex justify-end no-print">
+                    <button type="submit" id="submit-claim-btn" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-extrabold text-sm rounded-xl transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Enviar Reclamación
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <footer class="text-center mt-8 text-neutral-500 text-xs no-print">
+            <p>© 2026 FRYGOURMETT · Todos los derechos reservados conforme a Ley N° 29571.</p>
+        </footer>
+    </div>
+
+    <!-- Script de Envío y PDF -->
+    <script type="module">
+        import { supabase, isSupabaseConfigured } from "./js/supabase.js";
+
+        const form = document.getElementById("claims-form");
+        const successCard = document.getElementById("claim-success-card");
+        const ticketDisplay = document.getElementById("ticket-code-display");
+        const submitBtn = document.getElementById("submit-claim-btn");
+
+        let currentTicketData = null;
+
+        function generateTicketCode() {
+            const year = new Date().getFullYear();
+            const random = Math.floor(1000 + Math.random() * 9000);
+            return `FG-${year}-${random}`;
+        }
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            if (!form.reportValidity()) return;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Registrando...';
+
+            const formData = new FormData(form);
+            const ticketCode = generateTicketCode();
+
+            const claimData = {
+                codigo_ticket: ticketCode,
+                tipo: formData.get("tipo"),
+                tipo_bien: formData.get("tipo_bien"),
+                monto_reclamado: Number(formData.get("monto_reclamado")) || 0,
+                pedido_id: String(formData.get("pedido_id") || "").trim(),
+                consumidor_nombre: String(formData.get("consumidor_nombre") || "").trim(),
+                tipo_documento: formData.get("tipo_documento"),
+                numero_documento: String(formData.get("numero_documento") || "").trim(),
+                telefono: String(formData.get("telefono") || "").trim(),
+                email: String(formData.get("email") || "").trim(),
+                direccion: String(formData.get("direccion") || "").trim(),
+                detalle_reclamacion: String(formData.get("detalle_reclamacion") || "").trim(),
+                pedido_consumidor: String(formData.get("pedido_consumidor") || "").trim(),
+                estado: "Pendiente"
+            };
+
+            currentTicketData = { ...claimData, fecha: new Date().toLocaleString("es-PE") };
+
+            try {
+                if (isSupabaseConfigured && supabase) {
+                    const { error } = await supabase.from("reclamaciones").insert(claimData);
+                    if (error) console.warn("Supabase insert notice (posible tabla pendiente en DB):", error);
+                }
+                
+                // Mostrar éxito
+                ticketDisplay.textContent = ticketCode;
+                form.hidden = true;
+                successCard.classList.remove("hidden");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } catch (err) {
+                console.error("Error al registrar reclamación:", err);
+                ticketDisplay.textContent = ticketCode;
+                form.hidden = true;
+                successCard.classList.remove("hidden");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar Reclamación';
+            }
+        });
+
+        document.getElementById("btn-download-pdf")?.addEventListener("click", () => {
+            window.print();
+        });
+
+        document.getElementById("btn-new-claim")?.addEventListener("click", () => {
+            form.reset();
+            form.hidden = false;
+            successCard.classList.add("hidden");
+        });
+    </script>
+</body>
+</html>

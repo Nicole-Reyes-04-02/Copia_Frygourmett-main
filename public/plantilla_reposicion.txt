@@ -1,0 +1,5 @@
+# Reposición FRYGOURMETT
+# Formato: Nombre del ingrediente | cantidad | unidad
+Arroz Blanco | 5 | kg
+Aceite Vegetal | 10 | L
+Pollo | 2.5 | kg

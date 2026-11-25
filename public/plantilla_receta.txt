@@ -1,0 +1,35 @@
+# ========================================================
+# PLANTILLA DE RECETA Y CONTROL DE MERMA - FRYGOURMETT
+# ========================================================
+# Instrucciones de uso:
+# 1. Conserva las etiquetas de sección: [INGREDIENTES], [PREPARACION] y [TERMINACION].
+# 2. En la sección [INGREDIENTES], utiliza el siguiente formato:
+#      - Nombre del insumo | Cantidad neta | Merma %
+#    Ejemplos:
+#      - Lomo Fino | 0.200 kg | 10%
+#      - Papa Amarilla | 0.250 kg | 20%
+#      - Cebolla Roja | 0.150 kg | 15%
+#      - Tomate | 0.120 kg | 10%
+#      - Pan de Hamburguesa | 1 und. | 0%
+#    (El porcentaje de merma es opcional; si no se indica, se asume 0%)
+# 3. [PREPARACION] y [TERMINACION] son notas internas de cocina estrictamente
+#    confidenciales (ocultas para el cliente en la vista pública).
+# ========================================================
+
+[INGREDIENTES]
+- Lomo Fino | 0.200 kg | 10%
+- Papa Amarilla | 0.250 kg | 20%
+- Cebolla Roja | 0.150 kg | 15%
+- Tomate | 0.120 kg | 10%
+- Arroz Blanco | 0.100 kg | 0%
+
+[PREPARACION]
+1. Cortar el lomo fino en tiras uniformes de 1.5 cm y reservar atemperado.
+2. Calentar el wok a fuego muy vivo con un chorro fino de aceite vegetal hasta punto de humo.
+3. Sellar la carne rápidamente para dorar los bordes y conservar los jugos internos (aproximadamente 45 segundos).
+4. Retirar la carne y saltear en el mismo fondo los gajos de cebolla y tomate junto con tiras de ají amarillo.
+5. Desglasar la base con vinagre tinto y salsa de soya (sillao) a fuego alto.
+6. Reincorporar la carne y mezclar con bastones de papa amarilla frita a 180°C y culantro fresco recién picado.
+
+[TERMINACION]
+Servir de inmediato en plato hondo de cerámica negra mate de autor. Montar el lomo al centro asegurando brillo y jugosidad. Acompañar al costado con una porción moldeada de arroz blanco graneado y decorar con una ramita fresca de culantro.

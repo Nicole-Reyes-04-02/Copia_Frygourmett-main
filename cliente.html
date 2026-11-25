@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Comida rápida con técnica de alta cocina. Explora la carta Frygourmett, pide a domicilio y sigue tu pedido.">
+    <meta name="keywords" content="Frygourmett, pollo, comida rápida, delivery, pedidos online, menú, restaurante peruano de autor">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="%VITE_SITE_URL%/cliente.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:site_name" content="Frygourmett">
+    <meta property="og:title" content="Frygourmett | Cocina Peruana de Autor & Delivery">
+    <meta property="og:description" content="Comida rápida con técnica de alta cocina. Pide a domicilio platos ejecutados con precisión de chef.">
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.webp">
+    <meta property="og:image:alt" content="Servicio delivery de Frygourmett">
+    <meta property="og:url" content="%VITE_SITE_URL%/cliente.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Frygourmett | Cocina Peruana de Autor & Delivery">
+    <meta name="twitter:description" content="Comida rápida con técnica de alta cocina: cada plato, ejecutado con precisión de chef.">
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.webp">
+    <meta name="theme-color" content="#0C0C0E">
+    <title>FRYGOURMETT | Cocina Peruana de Autor & Delivery</title>
+    <link rel="icon" href="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" type="image/png">
+    
+    <!-- Google Fonts: Plus Jakarta Sans, Playfair Display, Unbounded & Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Playfair+Display:ital,wght@1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Unbounded:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS v3 with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                cream: '#FBF9F5',
+                dark: '#0C0C0E',
+                darker: '#070708',
+                card: '#141416',
+                accent: '#E5A93C',
+                red: '#EA1D2C',
+                rappi: '#FF441F'
+              }
+            },
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', 'Montserrat', 'sans-serif'],
+              serif: ['"Playfair Display"', 'serif']
+            }
+          }
+        }
+      }
+    </script>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/customer.css">
+    <link rel="stylesheet" href="css/advanced.css">
+    <link rel="stylesheet" href="css/premium.css">
+    
+    <style>
+      .editorial-cursive {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+      }
+      .text-glow {
+        text-shadow: 0 0 20px rgba(255,255,255,0.25);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        height: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #e2ded5;
+        border-radius: 4px;
+      }
+    </style>
+    
+    <script type="module" src="js/customer.js"></script>
+    <script type="module" src="js/home-reviews.js"></script>
+    <script type="module" src="js/premium.js"></script>
+    <script type="module">
+      import { setupUnitSelectors, setupAnimations } from "./src/advanced.js";
+      setupUnitSelectors();
+      setupAnimations();
+    </script>
+</head>
+<body class="customer-page bg-[#FBF9F5] text-neutral-900 font-sans antialiased selection:bg-amber-400 selection:text-neutral-950">
+
+    <!-- BEGIN: AnnouncementBar -->
+    <aside class="operational-status-bar bg-[#0B0B0C] text-neutral-300 text-xs py-2 px-4 border-b border-neutral-800/80 sticky top-0 z-50" id="operational-status-bar" aria-label="Estado operativo del restaurante">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 guest-container status-bar-inner">
+            <!-- Attention Schedule -->
+            <div class="flex items-center gap-2 status-item status-hours">
+                <i class="fa-regular fa-clock text-amber-400" aria-hidden="true"></i>
+                <span>Horario de atención: <strong class="text-white font-semibold" id="service-hours">3:00 PM a 3:00 AM</strong></span>
+            </div>
+            <!-- Live Kitchen Status -->
+            <div class="flex items-center gap-2 status-item status-kitchen" id="kitchen-status-indicator">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 status-dot is-open"></span>
+                </span>
+                <span>Cocina: <strong class="text-emerald-400 font-semibold" id="kitchen-status-text">Abierto</strong></span>
+                <span id="service-kitchen-status" class="sr-only">Abierto</span>
+            </div>
+            <!-- Delivery Estimation -->
+            <div class="hidden sm:flex items-center gap-2 status-item status-delivery">
+                <i class="fa-solid fa-motorcycle text-amber-400" aria-hidden="true"></i>
+                <span>Delivery: <strong class="text-white font-semibold" id="service-delivery-time">35 – 45 min</strong> (Lima)</span>
+            </div>
+        </div>
+    </aside>
+    <!-- END: AnnouncementBar -->
+
+    <!-- BEGIN: MainHeader -->
+    <header class="bg-[#0e0e11]/95 backdrop-blur-md border-b border-neutral-800 sticky top-8 z-40 text-white guest-header">
+        <nav class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 h-20 flex items-center justify-between gap-2 sm:gap-3 lg:gap-4 guest-navbar-container" aria-label="Navegación principal">
+            <!-- Mobile Menu Trigger (Left on mobile, hidden on desktop) -->
+            <button class="guest-mobile-trigger md:hidden w-10 h-10 rounded-full bg-neutral-900 border border-neutral-700/80 flex items-center justify-center text-white hover:text-amber-400 transition-colors shrink-0 order-1 md:order-none" id="guest-mobile-trigger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-nav-drawer">
+                <i class="fa-solid fa-bars text-base" aria-hidden="true"></i>
+            </button>
+
+            <!-- Brand Logo (Centered on mobile, left on desktop) -->
+            <a class="flex items-center justify-center md:justify-start group focus:outline-none focus:ring-2 focus:ring-amber-400 rounded-lg p-1 guest-brand order-2 md:order-1 flex-1 md:flex-initial shrink-0" href="cliente.html" aria-label="Frygourmett Inicio">
+                <img src="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" alt="Frygourmett" class="brand-logo h-9 sm:h-10 md:h-11 w-auto object-contain brightness-0 invert transition-transform group-hover:scale-105">
+            </a>
+
+            <!-- Desktop Navigation Menu (Centered) -->
+            <div class="hidden md:flex items-center text-sm font-medium text-neutral-300 customer-tabs order-2" role="tablist" aria-label="Tu cuenta y pedidos">
+                <button class="customer-tab is-active text-white hover:text-amber-400 transition-colors py-2" id="tab-button-carta" type="button" role="tab" aria-controls="panel-carta" aria-selected="true" data-customer-tab="carta">Carta</button>
+                <button class="customer-tab text-neutral-300 hover:text-amber-400 transition-colors py-2" id="tab-button-pedidos" type="button" role="tab" aria-controls="panel-pedidos" aria-selected="false" data-customer-tab="pedidos">Mis pedidos</button>
+                <button class="customer-tab text-neutral-300 hover:text-amber-400 transition-colors py-2" id="tab-button-calificaciones" type="button" role="tab" aria-controls="panel-calificaciones" aria-selected="false" data-customer-tab="calificaciones">Calificaciones</button>
+                <button class="customer-tab text-neutral-300 hover:text-amber-400 transition-colors py-2" id="tab-button-nosotros" type="button" role="tab" aria-controls="panel-nosotros" aria-selected="false" data-customer-tab="nosotros">Nosotros</button>
+            </div>
+
+            <!-- Action Utilities (Right) -->
+            <div class="flex items-center guest-nav-actions order-3 shrink-0">
+                <!-- Search Button (Desktop) -->
+                <a href="#panel-carta" class="hidden sm:flex w-9 h-9 rounded-full bg-neutral-900 border border-neutral-700/80 items-center justify-center text-neutral-300 hover:text-white hover:border-neutral-500 transition-all nav-search-btn" aria-label="Buscar plato">
+                    <i class="fa-solid fa-magnifying-glass text-xs" aria-hidden="true"></i>
+                </a>
+                
+                <!-- Theme Toggle -->
+                <button class="icon-button guest-theme-btn hidden sm:flex w-9 h-9 rounded-full bg-neutral-900 border border-neutral-700/80 items-center justify-center text-neutral-300 hover:text-white hover:border-neutral-500 transition-all nav-theme-btn" id="guest-theme-toggle" type="button" aria-label="Cambiar tema claro/oscuro">
+                    <i class="fa-solid fa-moon text-xs text-amber-400" aria-hidden="true"></i>
+                </button>
+
+                <div class="customer-notifications-wrap" id="customer-notification-control" hidden>
+                    <button class="customer-notification-button" id="customer-notification-button" type="button" aria-label="Ver notificaciones" aria-haspopup="dialog" aria-expanded="false" aria-controls="customer-role-notifications">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+                        <span class="notification-count" id="customer-notification-count" aria-hidden="true" hidden></span>
+                    </button>
+                    <aside class="role-notifications customer-role-notifications" id="customer-role-notifications" role="dialog" aria-label="Notificaciones" hidden>
+                        <strong>Notificaciones</strong>
+                        <div class="notification-list" id="customer-role-notification-list" role="list" aria-live="polite">No tienes notificaciones.</div>
+                    </aside>
+                </div>
+                
+                <!-- Shopping Cart Pill Button -->
+                <button class="guest-cart-button" id="open-cart" type="button" aria-controls="cart-panel" aria-expanded="false" aria-label="Ver carrito">
+                    <i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                    <span class="hidden sm:inline cart-text">Carrito</span>
+                    <span id="cart-count">0</span>
+                </button>
+                
+                <!-- User Panel Button / Login Trigger -->
+                <button class="guest-login-btn hidden sm:inline-flex items-center bg-white text-neutral-950 hover:bg-neutral-200 text-xs font-bold py-2 px-3.5 rounded-full transition-colors" id="guest-login-trigger" type="button">
+                    Iniciar sesión
+                </button>
+                
+                <div class="guest-user-menu flex items-center" id="guest-user-menu" hidden>
+                    <span class="guest-user-label text-xs font-semibold text-neutral-300 hidden md:inline" id="guest-user-label"></span>
+                    <a class="hidden sm:inline-flex items-center bg-white text-neutral-950 hover:bg-neutral-200 text-xs font-bold py-2 px-3 rounded-full transition-colors guest-panel-link" id="guest-panel-link" href="index.html#resumen" hidden>Ir a mi panel</a>
+                    <button class="guest-user-action text-xs text-neutral-400 hover:text-white" id="header-logout-btn" type="button">Salir</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- END: MainHeader -->
+
+    <!-- Menú Hamburguesa Móvil Desplegable -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer" hidden>
+        <div class="drawer-header flex items-center justify-between p-4 border-b border-neutral-800">
+            <img src="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" alt="Frygourmett" class="brand-logo h-10 w-auto brightness-0 invert">
+            <button class="drawer-close text-2xl text-neutral-400 hover:text-white" id="drawer-close-btn" type="button" aria-label="Cerrar menú">×</button>
+        </div>
+        <nav class="drawer-nav p-4 space-y-3">
+            <a href="#carta" class="drawer-link block py-2 text-sm font-semibold text-neutral-200 hover:text-amber-400" data-drawer-tab="carta">🍽 Carta & Menú</a>
+            <a href="#pedidos" class="drawer-link block py-2 text-sm font-semibold text-neutral-200 hover:text-amber-400" data-drawer-tab="pedidos">🛵 Mis pedidos</a>
+            <a href="#calificaciones" class="drawer-link block py-2 text-sm font-semibold text-neutral-200 hover:text-amber-400" data-drawer-tab="calificaciones">★ Calificaciones</a>
+            <a href="#nosotros" class="drawer-link block py-2 text-sm font-semibold text-neutral-200 hover:text-amber-400" data-drawer-tab="nosotros">👨‍🍳 Nuestra historia</a>
+            <a href="#videos" class="drawer-link block py-2 text-sm font-semibold text-neutral-200 hover:text-amber-400" data-drawer-anchor="videos">▶ Videos de cocina</a>
+            <div class="drawer-divider border-t border-neutral-800 my-2"></div>
+            <div id="drawer-guest-block">
+                <button type="button" class="drawer-link drawer-login-link w-full text-left py-2.5 px-4 rounded-xl bg-amber-400/10 border border-amber-400/30 text-sm font-bold text-amber-400 hover:bg-amber-400/20 flex items-center gap-2" id="drawer-login-btn" data-drawer-tab="pedidos">
+                    <i class="fa-regular fa-user" aria-hidden="true"></i>
+                    <span>Iniciar sesión / Registrarse</span>
+                </button>
+            </div>
+            <div id="drawer-auth-block" hidden>
+                <span class="drawer-user-pill block text-xs text-neutral-400 mb-1" id="drawer-user-name">Usuario</span>
+                <a href="index.html#resumen" class="drawer-link drawer-panel-link block py-2 text-sm font-bold text-amber-400" id="drawer-panel-link" hidden>🛡️ Panel de Cocina / Admin</a>
+                <button type="button" class="drawer-link drawer-logout-btn block py-2 text-sm text-neutral-400 hover:text-white" id="drawer-logout-btn">🚪 Cerrar sesión</button>
+            </div>
+        </nav>
+        <div class="drawer-footer p-4 border-t border-neutral-800 space-y-3">
+            <div class="drawer-schedule text-xs text-neutral-400">
+                <span>⏰ Horario: <strong class="text-white">3:00 PM a 3:00 AM</strong></span>
+            </div>
+            <button class="button button-outline drawer-theme-btn w-full py-2 text-xs border border-neutral-700 text-neutral-300 rounded-lg hover:border-neutral-500" id="drawer-theme-toggle" type="button">
+                Cambiar apariencia (Modo claro/oscuro)
+            </button>
+        </div>
+    </div>
+
+    <main class="customer-main">
+
+        <!-- BEGIN: HeroSection / Carousel -->
+        <section class="featured-carousel" id="featured-carousel" aria-label="Promociones y platos destacados" style="--t:7s">
+            <!-- Fondos difuminados con crossfade -->
+            <div class="pm-hero-bgs" id="hero-bgs" aria-hidden="true">
+                <img src="img/promo.avif" alt="" class="is-active">
+                <img src="img/bbq.avif" alt="">
+                <img src="img/delifrygour.webp" alt="">
+                <img src="img/domicilio.avif" alt="">
+            </div>
+
+            <!-- Dynamic Slide Track -->
+            <div class="carousel-track" id="carousel-track">
+                <!-- Slide 1 inicial (Video cocina) -->
+                <article class="carousel-slide is-active" data-carousel-slide aria-hidden="false" aria-label="Nuestra cocina">
+                    <div class="pm-slide-copy">
+                        <span class="pm-slide-tag"><i></i>Cocina de autor · Delivery nocturno</span>
+                        <h1 class="pm-slide-title">El sabor no se explica. <em>Se prueba.</em></h1>
+                        <p class="pm-slide-desc">Papas nativas con doble cocción, alitas glaseadas y reducciones artesanales.</p>
+                        <div class="pm-slide-actions">
+                            <a class="pm-btn-primary" href="#carta">
+                                <span>Pedir ahora</span><i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+                            </a>
+                            <a class="pm-btn-ghost" href="#videos">
+                                <i class="fa-solid fa-play text-[10px]" aria-hidden="true"></i>
+                                <span>Ver nuestra cocina</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pm-slide-stage">
+                        <div class="pm-slide-card" style="--ar:0.5625;--glow:#ef4444">
+                            <video src="img/prom.mp4" autoplay muted loop playsinline preload="metadata" poster="img/promo.avif"></video>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Navigation Side Arrows -->
+            <button id="carousel-previous" class="carousel-control carousel-previous" aria-label="Anterior slide" type="button">
+                <i class="fa-solid fa-chevron-left text-sm" aria-hidden="true"></i>
+            </button>
+            <button id="carousel-next" class="carousel-control carousel-next" aria-label="Siguiente slide" type="button">
+                <i class="fa-solid fa-chevron-right text-sm" aria-hidden="true"></i>
+            </button>
+
+            <!-- Slide Indicators / Dock -->
+            <div class="carousel-dots" id="carousel-dots" role="group" aria-label="Seleccionar promoción"></div>
+        </section>
+        <!-- END: HeroSection / Carousel -->
+
+        <!-- BEGIN: ValuePropsBar -->
+        <section class="relative z-30 -mt-8 max-w-6xl mx-auto px-4 sm:px-6" aria-label="Pilares y ventajas gastronómicas">
+            <div class="bg-white rounded-2xl shadow-xl shadow-neutral-950/5 border border-neutral-100 p-4 md:p-6 text-neutral-900">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 divide-y md:divide-y-0 md:divide-x divide-neutral-100">
+                    <!-- Prop 1 -->
+                    <div class="flex items-center gap-3.5 px-2 pt-2 md:pt-0">
+                        <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-seedling" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-neutral-900 text-sm whitespace-nowrap">Papas nativas peruanas</h4>
+                            <p class="text-xs text-neutral-500">100% peruanas</p>
+                        </div>
+                    </div>
+                    <!-- Prop 2 -->
+                    <div class="flex items-center gap-3.5 px-2 pt-2 md:pt-0">
+                        <div class="w-11 h-11 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-fire-burner" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-neutral-900 text-sm whitespace-nowrap">Doble cocción</h4>
+                            <p class="text-xs text-neutral-500">Crocancia perfecta</p>
+                        </div>
+                    </div>
+                    <!-- Prop 3 -->
+                    <div class="flex items-center gap-3.5 px-2 pt-4 md:pt-0">
+                        <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-crown" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-neutral-900 text-sm whitespace-nowrap">Alitas de autor</h4>
+                            <p class="text-xs text-neutral-500">Recetas originales</p>
+                        </div>
+                    </div>
+                    <!-- Prop 4 -->
+                    <div class="flex items-center gap-3.5 px-2 pt-4 md:pt-0">
+                        <div class="w-11 h-11 rounded-xl bg-yellow-50 text-yellow-700 flex items-center justify-center flex-shrink-0 text-xl">
+                            <i class="fa-solid fa-bowl-food" aria-hidden="true"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-neutral-900 text-sm whitespace-nowrap">Salsas artesanales</h4>
+                            <p class="text-xs text-neutral-500">Hechas en casa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: ValuePropsBar -->
+
+        <!-- BEGIN: MenuSection (Panel Carta) -->
+        <section class="customer-tab-panel pt-8 pb-14 sm:pt-10 sm:pb-16 bg-brand-cream text-neutral-900" id="panel-carta" data-customer-panel="carta" role="tabpanel" aria-labelledby="tab-button-carta">
+            <div id="carta" class="sr-only"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <!-- 1. EXPLORA POR CATEGORÍAS -->
+                <section class="explore-categories-section mb-12 sm:mb-16" id="explora-categorias" aria-labelledby="explore-categories-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">CATEGORÍAS</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="explore-categories-title">Explora por categorías</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="cat-carousel-prev" aria-label="Categorías anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="cat-carousel-next" aria-label="Categorías siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="categories-carousel-track flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="categories-carousel-track" role="region" aria-label="Carrusel de categorías">
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Para Compartir" role="button" tabindex="0" aria-label="Filtrar por Para Compartir">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/Para-compartir.jpg" alt="Para Compartir" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Para Compartir</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Grandes" role="button" tabindex="0" aria-label="Filtrar por Grandes">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/Grande.jpg" alt="Grandes" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Grandes</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Familiares" role="button" tabindex="0" aria-label="Filtrar por Familiares">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/Familiares.jpg" alt="Familiares" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Familiares</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Alitas" role="button" tabindex="0" aria-label="Filtrar por Alitas">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/Alitas.jpg" alt="Alitas" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Alitas</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Extras" role="button" tabindex="0" aria-label="Filtrar por Extras">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/Extras.jpg" alt="Extras" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Extras</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Bebidas" role="button" tabindex="0" aria-label="Filtrar por Bebidas">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/Bebidas.png" alt="Bebidas" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Bebidas</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Promo Gourmett" role="button" tabindex="0" aria-label="Filtrar por Promo Gourmett">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/Promo.jpg" alt="Promo Gourmett" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Promo Gourmett</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Hamburguesas" role="button" tabindex="0" aria-label="Filtrar por Hamburguesas">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/hamburguesas.jpg" alt="Hamburguesas" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Hamburguesas</span>
+                        </article>
+                        <article class="category-card flex flex-col items-center flex-shrink-0 snap-start cursor-pointer group" data-category-card="Kid Gourmett" role="button" tabindex="0" aria-label="Filtrar por Kid Gourmett">
+                            <div class="category-card-thumb">
+                                <img src="img/explorar-categorias/kid Gourmet.jpg" alt="Kid Gourmett" loading="lazy">
+                            </div>
+                            <span class="category-card-name">Kid Gourmett</span>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- 2. PLATOS PARA COMPARTIR -->
+                <section class="share-dishes-section mb-12 sm:mb-16" id="para-compartir" aria-labelledby="share-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">IDEALES PARA DISFRUTAR EN COMPAÑÍA</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="share-dishes-title">Platos para Compartir</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="share-carousel-prev" aria-label="Platos para compartir anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="share-carousel-next" aria-label="Platos para compartir siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="share-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="share-dishes-track" role="region" aria-label="Carrusel de platos para compartir">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 3. PLATOS GRANDES -->
+                <section class="large-dishes-section mb-12 sm:mb-16" id="platos-grandes" aria-labelledby="large-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">PORCIONES GENEROSAS</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="large-dishes-title">Platos Grandes</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="large-carousel-prev" aria-label="Platos grandes anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="large-carousel-next" aria-label="Platos grandes siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="large-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="large-dishes-track" role="region" aria-label="Carrusel de platos grandes">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 4. PLATOS FAMILIARES -->
+                <section class="family-dishes-section mb-12 sm:mb-16" id="platos-familiares" aria-labelledby="family-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">PARA DISFRUTAR EN FAMILIA</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="family-dishes-title">Platos Familiares</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="family-carousel-prev" aria-label="Platos familiares anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="family-carousel-next" aria-label="Platos familiares siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="family-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="family-dishes-track" role="region" aria-label="Carrusel de platos familiares">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 5. ALITAS -->
+                <section class="wings-dishes-section mb-12 sm:mb-16" id="platos-alitas" aria-labelledby="wings-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">ALITAS DE AUTOR</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="wings-dishes-title">Alitas</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="wings-carousel-prev" aria-label="Alitas anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="wings-carousel-next" aria-label="Alitas siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="wings-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="wings-dishes-track" role="region" aria-label="Carrusel de alitas">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 6. EXTRAS -->
+                <section class="extras-dishes-section mb-12 sm:mb-16" id="platos-extras" aria-labelledby="extras-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">ACOMPAÑAMIENTOS Y COMPLEMENTOS</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="extras-dishes-title">Extras</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="extras-carousel-prev" aria-label="Extras anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="extras-carousel-next" aria-label="Extras siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="extras-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="extras-dishes-track" role="region" aria-label="Carrusel de extras">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 7. PLATOS ESPECIALES -->
+                <section class="special-dishes-section mb-12 sm:mb-16" id="platos-especiales" aria-labelledby="special-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">SELECCIÓN DEL CHEF</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="special-dishes-title">Platos Especiales</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="spec-carousel-prev" aria-label="Platos anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="spec-carousel-next" aria-label="Platos siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="special-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="special-dishes-track" role="region" aria-label="Carrusel de platos especiales">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 8. BEBIDAS -->
+                <section class="beverages-section mb-12 sm:mb-16" id="bebidas" aria-labelledby="beverages-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">REFRESCANTES & ARTESANALES</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="beverages-title">Bebidas</h2>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="bev-carousel-prev" aria-label="Bebidas anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="bev-carousel-next" aria-label="Bebidas siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="beverages-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="beverages-track" role="region" aria-label="Carrusel de bebidas">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 9. PROMO GOURMETT -->
+                <section class="promo-dishes-section mb-12 sm:mb-16" id="promo-gourmett" aria-labelledby="promo-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">PROMOCIONES ESPECIALES</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="promo-dishes-title">Promo Gourmett</h2>
+                            <p class="text-xs sm:text-sm text-neutral-400 mt-1">Promociones especiales para disfrutar más por menos.</p>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="promo-carousel-prev" aria-label="Promociones anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="promo-carousel-next" aria-label="Promociones siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="promo-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="promo-dishes-track" role="region" aria-label="Carrusel de promociones">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 10. HAMBURGUESAS GOURMETT -->
+                <section class="burgers-dishes-section mb-12 sm:mb-16" id="hamburguesas-gourmett" aria-labelledby="burgers-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">HAMBURGUESAS DE AUTOR</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="burgers-dishes-title">Hamburguesas Gourmett</h2>
+                            <p class="text-xs sm:text-sm text-neutral-400 mt-1">Sabor artesanal en cada bocado.</p>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="burgers-carousel-prev" aria-label="Hamburguesas anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="burgers-carousel-next" aria-label="Hamburguesas siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="burgers-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="burgers-dishes-track" role="region" aria-label="Carrusel de hamburguesas">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 11. KID GOURMETT -->
+                <section class="kids-dishes-section mb-12 sm:mb-16" id="kid-gourmett" aria-labelledby="kids-dishes-title">
+                    <div class="flex items-center justify-between mb-5 pb-3 border-b border-neutral-200/80 section-heading-border">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-amber-600 uppercase block mb-1">PARA LOS MÁS PEQUEÑOS</span>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight section-heading-title" id="kids-dishes-title">Kid Gourmett</h2>
+                            <p class="text-xs sm:text-sm text-neutral-400 mt-1">Opciones deliciosas y divertidas para disfrutar en familia.</p>
+                        </div>
+                        <div class="carousel-nav-arrows flex items-center gap-2">
+                            <button type="button" class="carousel-arrow-btn" id="kids-carousel-prev" aria-label="Platos infantiles anteriores">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="carousel-arrow-btn" id="kids-carousel-next" aria-label="Platos infantiles siguientes">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="kids-dishes-carousel-track flex gap-5 overflow-x-auto scroll-smooth py-3 px-1 snap-x snap-mandatory" id="kids-dishes-track" role="region" aria-label="Carrusel de platos para niños">
+                        <!-- Generado dinámicamente desde customer.js -->
+                    </div>
+                </section>
+
+                <!-- 12. NUESTRA CARTA -->
+                <div class="menu-section-header" id="nuestra-carta">
+                    <!-- Section Title & Link Header -->
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-neutral-200/80 section-heading-border gap-4">
+                        <div>
+                            <span class="text-xs font-bold tracking-[0.2em] text-neutral-500 uppercase block mb-1">Nuestra Carta</span>
+                            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight section-heading-title">Cocina con intención</h2>
+                        </div>
+                        <span class="text-xs sm:text-sm text-neutral-500 font-medium">Preparado al momento · Entrega a domicilio</span>
+                    </div>
+                </div>
+
+                <!-- Store closed banner -->
+                <div class="store-status-banner mb-6 p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900" id="store-closed-banner" role="alert" hidden>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xl" aria-hidden="true">🔒</span>
+                        <div>
+                            <strong>La cocina se encuentra cerrada en este momento</strong>
+                            <p class="text-xs text-amber-800">No estamos recibiendo pedidos por ahora. Puedes explorar nuestra carta mientras volvemos a abrir.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filters & Search -->
+                <div class="menu-tools flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
+                    <div class="category-filters flex flex-wrap gap-2 w-full sm:w-auto" id="category-filters" aria-label="Filtrar carta por categoría"></div>
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400 text-xs" aria-hidden="true"></i>
+                        <input id="menu-search" type="search" placeholder="Buscar en la carta..." aria-label="Buscar en la carta" class="w-full bg-white border border-neutral-200/90 rounded-full py-2 pl-9 pr-4 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-amber-400 shadow-sm transition-colors">
+                    </div>
+                </div>
+
+                <!-- Dishes Grid -->
+                <div class="guest-menu-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="menu-grid" aria-live="polite"></div>
+
+                <p class="guest-order-hint text-center text-xs text-neutral-500 mt-6" id="order-hint">
+                    Selecciona tus platos y pulsa <strong>Añadir</strong> para armar tu pedido delivery.
+                </p>
+
+                <!-- Flyout Cart Panel -->
+                <aside class="cart-panel" id="cart-panel" aria-labelledby="cart-title" hidden>
+                    <div class="cart-heading flex items-center justify-between p-4 border-b border-neutral-200">
+                        <div>
+                            <p class="guest-eyebrow text-[11px] font-bold tracking-widest uppercase text-amber-600">TU PEDIDO</p>
+                            <h3 id="cart-title" class="font-extrabold text-base text-neutral-900">Confirma tu selección</h3>
+                        </div>
+                        <button class="cart-close text-2xl text-neutral-400 hover:text-neutral-900" id="close-cart" type="button" aria-label="Cerrar carrito">×</button>
+                    </div>
+                    <div class="cart-items p-4 divide-y divide-neutral-100 max-h-72 overflow-y-auto" id="cart-items"></div>
+                    <form id="checkout-form" class="p-4 space-y-4">
+                        <div class="delivery-fields space-y-3">
+                            <label class="block text-xs font-semibold text-neutral-700">Dirección exacta
+                                <input name="direccion_entrega" type="text" maxlength="240" autocomplete="street-address" placeholder="Calle, número, interior" required class="mt-1 w-full text-xs rounded-lg border-neutral-300 focus:border-amber-400 focus:ring-amber-400">
+                            </label>
+                            <label class="block text-xs font-semibold text-neutral-700">Distrito / Zona
+                                <input name="distrito_zona" type="text" maxlength="100" autocomplete="address-level2" placeholder="Distrito o zona de entrega" required class="mt-1 w-full text-xs rounded-lg border-neutral-300 focus:border-amber-400 focus:ring-amber-400">
+                            </label>
+                            <label class="block text-xs font-semibold text-neutral-700">Referencia
+                                <input name="referencia" type="text" maxlength="240" placeholder="Color de fachada, portería, punto cercano..." required class="mt-1 w-full text-xs rounded-lg border-neutral-300 focus:border-amber-400 focus:ring-amber-400">
+                            </label>
+                            <label class="block text-xs font-semibold text-neutral-700">Teléfono de contacto
+                                <input name="telefono_contacto" type="tel" inputmode="tel" minlength="7" maxlength="24" autocomplete="tel" placeholder="+ código de país y número" required class="mt-1 w-full text-xs rounded-lg border-neutral-300 focus:border-amber-400 focus:ring-amber-400">
+                            </label>
+                        </div>
+                        <fieldset class="payment-methods pt-2 border-t border-neutral-200">
+                            <legend class="text-xs font-bold text-neutral-800 uppercase tracking-wider mb-2">Método de pago</legend>
+                            <div class="payment-options grid grid-cols-2 gap-2 text-xs">
+                                <label class="payment-option p-2.5 rounded-lg border border-neutral-200 bg-white flex items-center gap-2 cursor-pointer hover:border-amber-400">
+                                    <input type="radio" name="metodo_pago" value="yape" required checked class="text-amber-500 focus:ring-amber-400">
+                                    <span><strong class="text-neutral-900 font-bold">Yape</strong><small class="block text-[10px] text-neutral-600 font-medium">Comprobante</small></span>
+                                </label>
+                                <label class="payment-option p-2.5 rounded-lg border border-neutral-200 bg-white flex items-center gap-2 cursor-pointer hover:border-amber-400">
+                                    <input type="radio" name="metodo_pago" value="plin" required class="text-amber-500 focus:ring-amber-400">
+                                    <span><strong class="text-neutral-900 font-bold">Plin</strong><small class="block text-[10px] text-neutral-600 font-medium">Comprobante</small></span>
+                                </label>
+                                <label class="payment-option p-2.5 rounded-lg border border-neutral-200 bg-white flex items-center gap-2 cursor-pointer hover:border-amber-400">
+                                    <input type="radio" name="metodo_pago" value="transferencia_interbank" required class="text-amber-500 focus:ring-amber-400">
+                                    <span><strong class="text-neutral-900 font-bold">Interbank</strong><small class="block text-[10px] text-neutral-600 font-medium">Con CCI</small></span>
+                                </label>
+                                <label class="payment-option p-2.5 rounded-lg border border-neutral-200 bg-white flex items-center gap-2 cursor-pointer hover:border-amber-400">
+                                    <input type="radio" name="metodo_pago" value="efectivo" required class="text-amber-500 focus:ring-amber-400">
+                                    <span><strong class="text-neutral-900 font-bold">Efectivo</strong><small class="block text-[10px] text-neutral-600 font-medium">Contra entrega</small></span>
+                                </label>
+                            </div>
+                            <div class="payment-detail mt-2 p-2.5 bg-amber-50/70 border border-amber-200/80 rounded-lg text-xs text-amber-950" id="transfer-payment-detail" hidden>
+                                <p>Al confirmar tu pedido, se abrirá el paso de <strong id="selected-payment-label">Yape</strong> para adjuntar tu código de operación y comprobante.</p>
+                            </div>
+                            <div class="payment-detail mt-2 p-2.5 bg-amber-50/70 border border-amber-200/80 rounded-lg text-xs text-amber-950" id="digital-payment-hint" hidden>
+                                <p>Pago digital verificado al instante con confirmación por WhatsApp o comprobante.</p>
+                            </div>
+                            <div class="payment-detail mt-2 p-2.5 bg-neutral-50 border border-neutral-200 rounded-lg text-xs" id="cash-payment-detail" hidden>
+                                <label class="block font-medium text-neutral-700">¿Con cuánto pagas? (para llevar vuelto) <span class="text-neutral-400 font-normal">Opcional</span>
+                                    <input id="cash-amount" name="monto_entregado" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ej. 50.00" class="mt-1 w-full text-xs rounded-lg border-neutral-300">
+                                </label>
+                                <p id="cash-change-estimate" class="cash-change-estimate text-[11px] text-neutral-500 mt-1" aria-live="polite">Indica el importe para calcular el vuelto.</p>
+                            </div>
+                        </fieldset>
+                        <label class="cart-note block text-xs font-semibold text-neutral-700">Nota para cocina <span class="text-neutral-400 font-normal">Opcional</span>
+                            <textarea name="nota" rows="2" maxlength="300" placeholder="Alergias o indicaciones importantes" class="mt-1 w-full text-xs rounded-lg border-neutral-300"></textarea>
+                        </label>
+                        <div class="cart-total flex items-center justify-between pt-3 border-t border-neutral-200">
+                            <span class="font-bold text-sm text-neutral-800">Total</span>
+                            <strong id="cart-total" class="text-xl font-black text-neutral-950">S/ 0.00</strong>
+                        </div>
+                        <div class="cart-closed-notice p-3 bg-red-50 text-red-700 rounded-lg text-xs flex items-center gap-2" id="cart-closed-notice" role="alert" hidden>
+                            <span>⚠️</span> <strong>Cocina cerrada:</strong> no es posible procesar pedidos en este momento.
+                        </div>
+                        <button class="guest-button guest-button-dark w-full py-3 rounded-full bg-neutral-900 hover:bg-amber-400 hover:text-neutral-950 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md" id="submit-order" type="submit">
+                            Confirmar pedido
+                        </button>
+                    </form>
+                </aside>
+            </div>
+        </section>
+        <!-- END: MenuSection -->
+
+        <!-- BEGIN: StoryExperienceSection -->
+        <section class="bg-brand-darker text-white overflow-hidden py-12 lg:py-0">
+            <div class="grid grid-cols-1 lg:grid-cols-2 items-center">
+                <!-- Left Column: Real Kitchen Team Photo -->
+                <div class="relative h-[380px] lg:h-[460px] overflow-hidden">
+                    <img alt="Equipo de cocina y chefs de Frygourmett preparando platos" class="w-full h-full object-cover filter brightness-90 hover:scale-105 transition-transform duration-700" src="img/chefs.jpeg">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent to-brand-darker/90 hidden lg:block"></div>
+                </div>
+                <!-- Right Column: Editorial Message -->
+                <div class="relative p-8 sm:p-12 lg:p-16 flex flex-col justify-center">
+                    <i class="fa-solid fa-kitchen-set absolute right-6 bottom-4 text-[160px] text-white/[0.03] select-none pointer-events-none" aria-hidden="true"></i>
+                    <div class="relative z-10 max-w-lg">
+                        <span class="text-xs font-bold tracking-[0.2em] text-neutral-400 uppercase block mb-3">Frygourmett</span>
+                        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white mb-4">
+                            Más que comida,<br>una experiencia.
+                        </h2>
+                        <p class="text-neutral-300 text-sm sm:text-base leading-relaxed mb-8">
+                            Cocina peruana de autor, con productos seleccionados, técnica y mucha pasión. Redefinimos los sabores tradicionales para llevarlos a tu mesa con excelencia.
+                        </p>
+                        <div>
+                            <a class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white text-neutral-950 font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors" href="#nosotros" data-switch-to-nosotros>
+                                <span>Conoce nuestro ADN</span>
+                                <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: StoryExperienceSection -->
+
+        <!-- BEGIN: VideoKitchenSection -->
+        <section class="py-20 bg-brand-cream" id="videos" aria-labelledby="kitchen-videos-title">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Heading -->
+                <div class="max-w-2xl mb-10">
+                    <span class="text-xs font-bold tracking-[0.2em] text-neutral-500 uppercase block mb-1">EN EL CORAZÓN DE LA COCINA</span>
+                    <h2 class="text-3xl font-extrabold text-neutral-900 tracking-tight mb-2" id="kitchen-videos-title">Descubre nuestra cocina</h2>
+                    <p class="text-neutral-500 text-sm">Platos reales, creatividad y el sello Frygourmett en cada preparación.</p>
+                </div>
+                <!-- Video Thumbnails Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Video 1: Ceviche -->
+                    <article class="kitchen-video-card relative rounded-2xl overflow-hidden aspect-[4/3] bg-neutral-900 group cursor-pointer shadow-md" data-video-card>
+                        <video src="img/video%20ceviche.mp4" muted loop playsinline preload="metadata" poster="img/Ceviche.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center pointer-events-none">
+                            <span class="video-play-trigger w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/40 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play text-sm ml-0.5" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold pointer-events-none">
+                            <span>Ceviche</span>
+                            <span class="video-duration-pill bg-black/70 px-2 py-0.5 rounded text-[11px] font-mono">0:15</span>
+                        </div>
+                    </article>
+                    <!-- Video 2: Arroz con Pollo -->
+                    <article class="kitchen-video-card relative rounded-2xl overflow-hidden aspect-[4/3] bg-neutral-900 group cursor-pointer shadow-md" data-video-card>
+                        <video src="img/video%20de%20arroz%20con%20pollo.mp4" muted loop playsinline preload="metadata" poster="img/arroz%20con%20pato.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center pointer-events-none">
+                            <span class="video-play-trigger w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/40 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play text-sm ml-0.5" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold pointer-events-none">
+                            <span>Arroz con pollo</span>
+                            <span class="video-duration-pill bg-black/70 px-2 py-0.5 rounded text-[11px] font-mono">0:20</span>
+                        </div>
+                    </article>
+                    <!-- Video 3: Estofado -->
+                    <article class="kitchen-video-card relative rounded-2xl overflow-hidden aspect-[4/3] bg-neutral-900 group cursor-pointer shadow-md" data-video-card>
+                        <video src="img/video%20de%20estofado.mp4" muted loop playsinline preload="metadata" poster="img/La%20presentacion%20de%20platos.jpeg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center pointer-events-none">
+                            <span class="video-play-trigger w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/40 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play text-sm ml-0.5" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold pointer-events-none">
+                            <span>Estofado</span>
+                            <span class="video-duration-pill bg-black/70 px-2 py-0.5 rounded text-[11px] font-mono">0:18</span>
+                        </div>
+                    </article>
+                    <!-- Video 4: Puré con parmesano -->
+                    <article class="kitchen-video-card relative rounded-2xl overflow-hidden aspect-[4/3] bg-neutral-900 group cursor-pointer shadow-md" data-video-card>
+                        <video src="img/video-plato-pure-queso-parmesano.mp4" muted loop playsinline preload="metadata" poster="img/Solomillo%20Wagyu%20A5%20Miyazaki.webp" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"></video>
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center pointer-events-none">
+                            <span class="video-play-trigger w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/40 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-play text-sm ml-0.5" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white text-xs font-semibold pointer-events-none">
+                            <span>Puré con parmesano</span>
+                            <span class="video-duration-pill bg-black/70 px-2 py-0.5 rounded text-[11px] font-mono">0:15</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <!-- END: VideoKitchenSection -->
+
+        <!-- BEGIN: TestimonialsSection -->
+        <section class="py-20 bg-[#0e0e11] text-white" id="calificaciones" aria-labelledby="home-reviews-title">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <!-- Left Title and Carousel Navigation -->
+                    <div class="lg:col-span-5">
+                        <span class="text-xs font-bold tracking-[0.2em] text-neutral-400 uppercase block mb-2">EXPERIENCIAS REALES</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4" id="home-reviews-title">Opiniones de nuestros comensales</h2>
+                        <p class="text-neutral-400 text-sm leading-relaxed mb-6">Platos creados con técnica, sabor y dedicación. Lee lo que nuestros clientes opinan sobre su experiencia delivery.</p>
+                        <div class="flex items-center gap-3">
+                            <button type="button" id="home-review-prev" class="w-10 h-10 rounded-full border border-neutral-700 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-colors" aria-label="Opinión anterior">
+                                <i class="fa-solid fa-chevron-left text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" id="home-review-next" class="w-10 h-10 rounded-full border border-neutral-700 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-colors" aria-label="Opinión siguiente">
+                                <i class="fa-solid fa-chevron-right text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Right Card: Testimonial Item -->
+                    <div class="lg:col-span-7">
+                        <div class="bg-[#F8F7F4] text-neutral-900 rounded-2xl p-7 sm:p-9 shadow-2xl relative" id="home-review-card" aria-live="polite">
+                            Cargando opiniones…
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: TestimonialsSection -->
+
+        <!-- BEGIN: PaymentAndDeliveryChannels -->
+        <section class="order-methods-section py-12 bg-white" id="metodos-pago" aria-labelledby="order-methods-title">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <!-- Section Header -->
+                    <div class="flex-shrink-0">
+                        <span class="text-xs font-bold tracking-[0.2em] text-neutral-400 uppercase block mb-1">FACILIDAD Y SEGURIDAD</span>
+                        <h3 class="text-2xl font-extrabold text-neutral-900 leading-tight" id="order-methods-title">
+                            Pide como<br>prefieras
+                        </h3>
+                    </div>
+                    <!-- Payment Channels & Partner Aggregators -->
+                    <div class="flex flex-wrap items-center gap-4 sm:gap-5 flex-1 lg:justify-end">
+                        <!-- EasyPay Method -->
+                        <div class="flex items-center gap-3 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/80 rounded-xl px-4 py-3 cursor-pointer transition-colors">
+                            <i class="fa-regular fa-credit-card text-2xl text-neutral-800" aria-hidden="true"></i>
+                            <div>
+                                <p class="font-bold text-xs text-neutral-900">EasyPay</p>
+                                <p class="text-[11px] text-neutral-500">Pago seguro</p>
+                            </div>
+                        </div>
+                        <!-- CoolKey Method -->
+                        <div class="flex items-center gap-3 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/80 rounded-xl px-4 py-3 cursor-pointer transition-colors">
+                            <i class="fa-solid fa-bolt text-2xl text-amber-500" aria-hidden="true"></i>
+                            <div>
+                                <p class="font-bold text-xs text-neutral-900">CoolKey</p>
+                                <p class="text-[11px] text-neutral-500">Pago rápido</p>
+                            </div>
+                        </div>
+                        <!-- Direct WhatsApp Ordering -->
+                        <a class="flex items-center gap-3 bg-emerald-50 hover:bg-emerald-100/80 border border-emerald-200/80 rounded-xl px-4 py-3 cursor-pointer transition-colors" href="https://wa.me/51968776288?text=Hola%20Frygourmett,%20deseo%20hacer%20un%20pedido" rel="noopener noreferrer" target="_blank">
+                            <i class="fa-brands fa-whatsapp text-2xl text-emerald-600" aria-hidden="true"></i>
+                            <div>
+                                <p class="font-bold text-xs text-emerald-950">WhatsApp</p>
+                                <p class="text-[11px] text-emerald-700">Pedido directo</p>
+                            </div>
+                        </a>
+                        <!-- Separator & Apps Label -->
+                        <div class="hidden sm:block text-[11px] text-neutral-400 font-medium border-l border-neutral-200 pl-4 py-1 leading-tight">
+                            También<br>nos encuentras en:
+                        </div>
+                        <!-- PedidosYa Button -->
+                        <div class="flex items-center justify-center bg-brand-red text-white font-extrabold text-sm px-5 py-3.5 rounded-xl shadow-sm hover:brightness-110 transition-all cursor-pointer">
+                            <span class="tracking-tight italic font-serif">PedidosYa</span>
+                        </div>
+                        <!-- Rappi Button -->
+                        <div class="flex items-center justify-center bg-brand-rappi text-white font-black text-sm px-5 py-3.5 rounded-xl shadow-sm hover:brightness-110 transition-all cursor-pointer">
+                            <span class="tracking-wider">Rappi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- END: PaymentAndDeliveryChannels -->
+
+        <!-- PANEL CLIENTE: NOSOTROS / HISTORIA -->
+        <section class="customer-tab-panel py-16 bg-[#070708] text-white hidden" id="panel-nosotros" data-customer-panel="nosotros" role="tabpanel" aria-labelledby="tab-button-nosotros" hidden>
+            <div id="historia" class="sr-only"></div>
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <div class="about-hero-card bg-neutral-900 border border-neutral-800 rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+                    <div class="about-hero-media h-72 lg:h-auto overflow-hidden">
+                        <img src="img/foto%20con%20el%20chefs.jpeg" alt="Chefs Frygourmett" class="about-hero-img w-full h-full object-cover">
+                    </div>
+                    <div class="about-hero-copy p-8 sm:p-12 flex flex-col justify-center">
+                        <span class="guest-eyebrow text-xs font-bold tracking-widest uppercase text-amber-400 block mb-2">HISTORIA Y PASIÓN</span>
+                        <h1 class="text-3xl sm:text-4xl font-extrabold mb-4">El arte del sabor.<br>Sin atajos industriales.</h1>
+                        <p class="about-lead text-neutral-300 text-sm sm:text-base leading-relaxed mb-4">Frygourmett nació en Lima con una convicción clara: la comida rápida no tiene por qué ser comida chatarra. Cada papa, salsa y porción de pollo merece técnica culinaria honesta.</p>
+                        <p class="text-neutral-400 text-xs sm:text-sm leading-relaxed mb-6">Creemos en el potencial gastronómico de nuestras papas nativas peruanas. Rescatamos variedades andinas directas del campo y las procesamos con una técnica de doble cocción.</p>
+                        <div class="about-pillars-row grid grid-cols-3 gap-4 pt-4 border-t border-neutral-800 text-center">
+                            <div class="about-pillar">
+                                <strong class="block text-amber-400 text-sm font-bold">Calidad</strong>
+                                <span class="text-[11px] text-neutral-400">Ingredientes frescos</span>
+                            </div>
+                            <div class="about-pillar">
+                                <strong class="block text-amber-400 text-sm font-bold">Identidad</strong>
+                                <span class="text-[11px] text-neutral-400">Orgullo peruano</span>
+                            </div>
+                            <div class="about-pillar">
+                                <strong class="block text-amber-400 text-sm font-bold">Técnica</strong>
+                                <span class="text-[11px] text-neutral-400">Restaurante en casa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL CLIENTE: MIS PEDIDOS -->
+        <section class="customer-tab-panel py-16 bg-neutral-50 text-neutral-900 hidden" id="panel-pedidos" data-customer-panel="pedidos" role="tabpanel" aria-labelledby="tab-button-pedidos" hidden>
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="identity-card bg-white p-6 sm:p-8 rounded-2xl border border-neutral-200/80 shadow-sm mb-8">
+                    <div class="mb-6">
+                        <p class="guest-eyebrow text-xs font-bold tracking-widest uppercase text-amber-600 mb-1">TU CUENTA</p>
+                        <h2 class="text-2xl font-extrabold text-neutral-950">Tu pedido, siempre a la vista</h2>
+                        <p class="text-xs text-neutral-500 mt-1">Crea una cuenta o inicia sesión para guardar tus datos de entrega y seguir cada pedido en tiempo real.</p>
+                    </div>
+                    <div class="identity-form-wrap">
+                        <div class="auth-mode-tabs flex gap-2 mb-4" role="group" aria-label="Acceso de comensales">
+                            <button class="auth-mode-button is-active px-4 py-1.5 rounded-full text-xs font-bold bg-neutral-950 text-white" type="button" data-auth-mode="signup" aria-pressed="true">Crear cuenta</button>
+                            <button class="auth-mode-button px-4 py-1.5 rounded-full text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200" type="button" data-auth-mode="login" aria-pressed="false">Iniciar sesión</button>
+                        </div>
+                        <form id="customer-identity-form" class="identity-form space-y-3" novalidate>
+                            <label id="customer-name-label" class="block text-xs font-semibold text-neutral-700">Nombre
+                                <input name="customerName" type="text" maxlength="60" autocomplete="name" placeholder="Tu nombre y apellido" required class="mt-1 w-full text-xs rounded-lg border-neutral-300">
+                            </label>
+                            <label id="customer-email-label" class="block text-xs font-semibold text-neutral-700">Correo electrónico
+                                <input name="customerEmail" type="email" autocomplete="email" placeholder="tu@correo.com" required class="mt-1 w-full text-xs rounded-lg border-neutral-300">
+                            </label>
+                            <p class="email-validation text-[11px] text-red-500" id="customer-email-validation" role="status" aria-live="polite"></p>
+                            <label id="customer-phone-label" class="block text-xs font-semibold text-neutral-700">Teléfono
+                                <input name="customerPhone" type="tel" inputmode="tel" minlength="7" maxlength="24" autocomplete="tel" placeholder="+ código de país y número" required class="mt-1 w-full text-xs rounded-lg border-neutral-300">
+                            </label>
+                            <label id="customer-password-label" class="block text-xs font-semibold text-neutral-700">Contraseña
+                                <input name="customerPassword" type="password" minlength="6" autocomplete="current-password" placeholder="Mínimo 6 caracteres" required class="mt-1 w-full text-xs rounded-lg border-neutral-300">
+                            </label>
+                            <button class="guest-button guest-button-dark w-full py-2.5 rounded-full bg-neutral-950 hover:bg-amber-400 hover:text-neutral-950 text-white font-bold text-xs uppercase tracking-wider transition-colors" type="submit">Crear cuenta</button>
+                        </form>
+                        <button class="identity-clear text-xs text-red-500 hover:underline mt-3" id="clear-customer" type="button" hidden>Cerrar sesión</button>
+                    </div>
+                </div>
+                <p class="demo-security-note text-xs text-neutral-400 mb-6" id="customer-auth-status" role="status">Conecta Supabase para activar seguimiento en tiempo real.</p>
+                <div class="guest-section-heading orders-section-heading mb-4">
+                    <div><p class="guest-eyebrow text-xs font-bold tracking-widest uppercase text-neutral-400">SEGUIMIENTO EN TIEMPO REAL</p><h2 class="text-2xl font-extrabold text-neutral-950">Mis pedidos</h2></div>
+                    <span id="orders-for-label" class="text-xs text-neutral-500">Historial reciente</span>
+                </div>
+                <div class="customer-orders-list space-y-4" id="customer-orders-list">
+                    <div class="customer-empty-state p-8 text-center text-xs text-neutral-400 bg-white rounded-2xl border border-neutral-200">
+                        Inicia sesión o registra tu cuenta para ver y seguir tus pedidos.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL CLIENTE: CALIFICACIONES PÚBLICAS -->
+        <section class="customer-tab-panel py-16 bg-[#0e0e11] text-white hidden" id="panel-calificaciones" data-customer-panel="calificaciones" role="tabpanel" aria-labelledby="tab-button-calificaciones" hidden>
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <div class="rating-box-card bg-neutral-900 border border-neutral-800 p-6 sm:p-8 rounded-2xl mb-12">
+                    <p class="guest-eyebrow text-xs font-bold tracking-widest uppercase text-amber-400 mb-1">TU OPINIÓN IMPORTA</p>
+                    <h2 class="text-2xl font-extrabold text-white mb-2">Califica tu pedido</h2>
+                    <p class="text-xs text-neutral-400 mb-6">Selecciona uno de tus pedidos entregados para calificar la comida y el servicio.</p>
+                    <form id="customer-rating-form" class="rating-form space-y-4">
+                        <label class="block text-xs font-semibold text-neutral-300">Pedido a calificar
+                            <select id="rating-order" name="orderId" required class="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-lg text-xs text-white p-2.5">
+                                <option value="">Selecciona un pedido...</option>
+                            </select>
+                        </label>
+                        <fieldset class="star-rating-group">
+                            <legend class="text-xs font-semibold text-neutral-300 mb-2">Puntuación</legend>
+                            <div class="star-inputs flex items-center gap-2 text-2xl text-amber-400">
+                                <label><input type="radio" name="puntuacion" value="5" required checked> ★★★★★</label>
+                            </div>
+                        </fieldset>
+                        <label class="block text-xs font-semibold text-neutral-300">Tu comentario
+                            <textarea name="comentario" rows="3" maxlength="400" placeholder="¿Qué tal estuvo el sabor, la temperatura y la entrega?" required class="mt-1 w-full bg-neutral-950 border border-neutral-700 rounded-lg text-xs text-white p-2.5"></textarea>
+                        </label>
+                        <button class="guest-button guest-button-dark py-2.5 px-6 rounded-full bg-amber-400 hover:bg-amber-500 text-neutral-950 font-bold text-xs uppercase tracking-wider transition-colors disabled:opacity-50" type="submit" disabled>Enviar calificación</button>
+                    </form>
+                </div>
+
+                <div class="guest-section-heading reviews-section-heading mb-6 flex items-end justify-between">
+                    <div><p class="guest-eyebrow text-xs font-bold tracking-widest uppercase text-neutral-400">EXPERIENCIAS REALES</p><h2 class="text-2xl font-extrabold text-white">Opiniones de nuestros comensales</h2></div>
+                    <span id="public-reviews-average" class="text-xs text-neutral-400">Lo que dicen otros clientes</span>
+                </div>
+                <div class="public-reviews-grid space-y-4" id="public-reviews-list">
+                    <div class="customer-empty-state p-6 bg-neutral-900 border border-neutral-800 rounded-xl text-xs text-neutral-400 text-center">Cargando opiniones de clientes...</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BEGIN: MainFooter -->
+    <footer class="guest-footer bg-brand-dark text-neutral-400 text-xs pt-16 pb-8 border-t border-neutral-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Footer Columns -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-neutral-800">
+                <!-- Column 1: Brand & Socials -->
+                <div class="lg:col-span-4 footer-col footer-col-brand flex flex-col items-start">
+                    <div class="mb-5 flex items-center">
+                        <img src="img/Logo%20negro%20FRYGOURMETT%20con%20gorro%20y%20bigote.png" alt="Frygourmett" class="h-16 sm:h-20 w-auto object-contain brightness-0 invert transition-transform hover:scale-105">
+                    </div>
+                    <p class="text-neutral-400 leading-relaxed mb-6 pr-6 text-xs sm:text-sm">
+                        Cocina de autor, preparada al momento y entregada en tu puerta con la más alta técnica y frescura peruana.
+                    </p>
+                    <nav class="flex items-center gap-3 guest-social-links" aria-label="Redes sociales de Frygourmett">
+                        <a id="share-whatsapp" href="https://wa.me/51968776288" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp de Frygourmett" class="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-300 hover:text-white hover:border-neutral-600 transition-colors">
+                            <i class="fa-brands fa-whatsapp text-xs" aria-hidden="true"></i>
+                        </a>
+                        <a id="share-google" href="#" target="_blank" rel="noopener noreferrer" aria-label="Google de Frygourmett" class="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-300 hover:text-white hover:border-neutral-600 transition-colors">
+                            <i class="fa-brands fa-google text-xs" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.instagram.com/explore/search/keyword/?q=Frygourmett" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Frygourmett" class="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-300 hover:text-white hover:border-neutral-600 transition-colors">
+                            <i class="fa-brands fa-instagram text-xs" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/search?q=Frygourmett" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Frygourmett" class="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-300 hover:text-white hover:border-neutral-600 transition-colors">
+                            <i class="fa-brands fa-tiktok text-xs" aria-hidden="true"></i>
+                        </a>
+                        <button id="share-page" type="button" aria-label="Compartir enlace" class="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-300 hover:text-white hover:border-neutral-600 transition-colors">
+                            <i class="fa-solid fa-share-nodes text-xs" aria-hidden="true"></i>
+                        </button>
+                    </nav>
+                </div>
+                <!-- Column 2: Navigation Links -->
+                <div class="lg:col-span-2 footer-col">
+                    <h4 class="text-white font-bold text-sm mb-4">Enlaces</h4>
+                    <ul class="space-y-2.5 footer-links-list">
+                        <li><a class="hover:text-white transition-colors" href="#carta" data-footer-nav="carta">Carta</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#pedidos" data-footer-nav="pedidos">Mis pedidos</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#calificaciones" data-footer-nav="calificaciones">Calificaciones</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#nosotros" data-footer-nav="nosotros">Nosotros</a></li>
+                        <li><a class="hover:text-white transition-colors" href="#videos">Videos de Cocina</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3: Legal & Support -->
+                <div class="lg:col-span-3 footer-col">
+                    <h4 class="text-white font-bold text-sm mb-4">Ayuda & Legal</h4>
+                    <ul class="space-y-2.5 footer-links-list">
+                        <li><button type="button" class="footer-legal-btn hover:text-white transition-colors text-left" data-legal-modal="privacy">Políticas de privacidad</button></li>
+                        <li><button type="button" class="footer-legal-btn hover:text-white transition-colors text-left" data-legal-modal="terms">Términos y condiciones</button></li>
+                        <li><button type="button" class="footer-legal-btn hover:text-white transition-colors text-left" data-legal-modal="cookies">Política de cookies</button></li>
+                        <li>
+                            <a href="reclamaciones.html" class="footer-legal-btn inline-flex items-center gap-2 hover:text-white transition-colors group text-left">
+                                <i class="fa-solid fa-book-bookmark text-neutral-500 group-hover:text-amber-400" aria-hidden="true"></i>
+                                <span>Libro de Reclamaciones</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Column 4: Newsletter -->
+                <div class="lg:col-span-3 footer-col footer-col-newsletter">
+                    <h4 class="text-white font-bold text-sm mb-4">Suscríbete a nuestras novedades</h4>
+                    <p class="text-neutral-400 mb-3 leading-relaxed">Entérate de nuevos lanzamientos de autor y promociones exclusivas.</p>
+                    <form class="footer-newsletter-form relative flex items-center" id="newsletter-form">
+                        <input class="w-full bg-neutral-900 border border-neutral-700/80 rounded-full py-2.5 pl-4 pr-11 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400 transition-colors" placeholder="Tu correo electrónico" required type="email">
+                        <button aria-label="Suscribirse al boletín" class="absolute right-1.5 w-7 h-7 rounded-full bg-amber-400 text-neutral-950 flex items-center justify-center hover:bg-amber-500 transition-colors" type="submit">
+                            <i class="fa-solid fa-arrow-right text-[10px]" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright Notice -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-neutral-500 text-[11px] gap-3 footer-bottom-bar">
+                <div class="flex items-center gap-2 footer-schedule-badge">
+                    <i class="fa-regular fa-clock text-amber-400" aria-hidden="true"></i>
+                    <span>Horario de atención: <strong>3:00 PM a 3:00 AM</strong></span>
+                </div>
+                <p class="guest-copyright">© <span id="guest-year"></span> FRYGOURMETT · Lima, Perú. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- END: MainFooter -->
+
+    <!-- Modal Legal: Políticas y Reclamaciones -->
+    <div class="overlay" id="legal-modal" hidden>
+        <section class="modal-card legal-modal-card bg-neutral-900 text-white border border-neutral-800 p-6 sm:p-8 rounded-2xl max-w-2xl w-full mx-auto shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="legal-modal-title">
+            <div class="modal-heading flex items-center justify-between pb-4 border-b border-neutral-800 mb-4">
+                <div>
+                    <p class="guest-eyebrow text-xs font-bold tracking-widest uppercase text-amber-400">MARCO LEGAL · FRYGOURMETT</p>
+                    <h2 id="legal-modal-title" class="text-xl font-extrabold text-white">Información Legal</h2>
+                </div>
+                <button class="icon-button close-modal text-2xl text-neutral-400 hover:text-white" id="close-legal-modal" type="button" aria-label="Cerrar ventana">×</button>
+            </div>
+            <div class="legal-modal-body text-xs text-neutral-300 space-y-3 max-h-96 overflow-y-auto pr-2 leading-relaxed" id="legal-modal-body"></div>
+            <div class="modal-actions pt-4 border-t border-neutral-800 mt-6 flex justify-end">
+                <button class="guest-button guest-button-dark px-6 py-2 rounded-full bg-white text-neutral-950 font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-colors" type="button" id="close-legal-btn">Entendido</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Barra Flotante Móvil de Carrito -->
+    <div class="mobile-cart-bar fixed bottom-4 left-4 right-4 z-40 bg-neutral-950 text-white p-3 rounded-2xl shadow-2xl border border-neutral-800 flex items-center justify-between" id="mobile-cart-bar" hidden>
+        <div class="mobile-cart-info">
+            <span class="mobile-cart-items text-xs font-semibold text-neutral-300" id="mobile-cart-count">🛒 0 productos</span>
+            <strong class="mobile-cart-price block text-base font-extrabold text-amber-400" id="mobile-cart-total">S/ 0.00</strong>
+        </div>
+        <button type="button" class="mobile-cart-btn px-4 py-2.5 rounded-full bg-amber-400 text-neutral-950 font-bold text-xs uppercase tracking-wide hover:bg-amber-500 transition-colors flex items-center gap-1.5" id="mobile-cart-trigger">
+            <span>Ver Carrito / Pedir</span> <span aria-hidden="true">→</span>
+        </button>
+    </div>
+
+    <div class="toast-region" id="guest-toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
